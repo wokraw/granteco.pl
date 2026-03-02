@@ -723,7 +723,7 @@ function StartPage({ navigateTo }) {
     },
   };
   const orb = orbConfig[hoveredService] || {
-    label: 'Zapraszamy do zapoznania się z ofertą',
+    label: 'Zapraszamy do zapoznania się z naszą ofertą',
     light1: 'bg-blue-500',
     light2: 'bg-amber-500',
     light3: 'bg-teal-500',
@@ -842,7 +842,7 @@ function StartPage({ navigateTo }) {
                     ) : (
                       <>
                         <span className="hidden md:block">
-                          Zapraszamy do zapoznania się z ofertą
+                          Zapraszamy do zapoznania się z naszą ofertą
                         </span>
                         <span className="block md:hidden">
                           Aby zapoznać się z ofertą przytrzymaj ikonę
