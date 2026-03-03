@@ -3219,6 +3219,7 @@ function CalculatorComponent({ setLegalModal }) {
     {/* --- KONIEC MODALA --- */}
       </div>
     </div>
+    <Analytics />
     </>
   );
-}<Analytics />
+}
