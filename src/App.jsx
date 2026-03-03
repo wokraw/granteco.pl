@@ -395,44 +395,40 @@ export default function App() {
 
           </div>
 
-          {/* Dolny pasek */}
+          {/* Dolny pasek — mobile: kolumna | desktop: 3 strefy w jednym wierszu */}
           <div className="border-t border-slate-800/50 pt-8 pb-2">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
 
-            {/* Linki prawne — widoczne na obu platformach */}
-            <div className="flex justify-center gap-6 mb-5">
-              <button
-                type="button"
-                onClick={() => setLegalModal('regulamin')}
-                className="text-slate-500 text-xs hover:text-slate-300 active:opacity-60 transition-colors underline underline-offset-2"
-              >
-                Regulamin
-              </button>
-              <span className="text-slate-700 text-xs">·</span>
-              <button
-                type="button"
-                onClick={() => setLegalModal('polityka')}
-                className="text-slate-500 text-xs hover:text-slate-300 active:opacity-60 transition-colors underline underline-offset-2"
-              >
-                Polityka Prywatności
-              </button>
-            </div>
-
-            {/* MOBILE: wyśrodkowana kolumna */}
-            <div className="flex flex-col items-center justify-center gap-3 md:hidden">
-              <p className="text-sm text-slate-400 text-center">Projekt i wykonanie: <a href="https://wopro3d.com" target="_blank" rel="noopener noreferrer" className="font-medium hover:text-white transition-colors">Wopro3Design</a></p>
-              <p className="text-slate-500 text-xs text-center">
+              {/* Lewa: copyright */}
+              <p className="text-slate-500 text-xs text-center md:text-left order-3 md:order-1">
                 &copy; {new Date().getFullYear()} Granteco. Wszelkie prawa zastrzeżone.
               </p>
-            </div>
 
-            {/* DESKTOP: copyright po lewej | podpis po prawej */}
-            <div className="hidden md:flex items-center justify-between">
-              <p className="text-slate-500 text-sm">
-                &copy; {new Date().getFullYear()} Granteco. Wszelkie prawa zastrzeżone.
+              {/* Środek: linki prawne */}
+              <div className="flex items-center gap-3 order-1 md:order-2">
+                <button
+                  type="button"
+                  onClick={() => setLegalModal('regulamin')}
+                  className="text-slate-500 text-xs hover:text-slate-300 active:opacity-60 transition-colors underline underline-offset-2"
+                >
+                  Regulamin
+                </button>
+                <span className="text-slate-700 text-xs">•</span>
+                <button
+                  type="button"
+                  onClick={() => setLegalModal('polityka')}
+                  className="text-slate-500 text-xs hover:text-slate-300 active:opacity-60 transition-colors underline underline-offset-2"
+                >
+                  Polityka Prywatności
+                </button>
+              </div>
+
+              {/* Prawa: wykonawca */}
+              <p className="text-sm text-slate-400 text-center md:text-right order-2 md:order-3">
+                Projekt i wykonanie: <a href="https://wopro3d.com" target="_blank" rel="noopener noreferrer" className="font-medium hover:text-white transition-colors">Wopro3Design</a>
               </p>
-              <p className="text-sm text-slate-400">Projekt i wykonanie: <a href="https://wopro3d.com" target="_blank" rel="noopener noreferrer" className="font-medium hover:text-white transition-colors">Wopro3Design</a></p>
-            </div>
 
+            </div>
           </div>
         </div>
       </footer>
@@ -3178,14 +3174,14 @@ function CalculatorComponent() {
                     Akceptuję{' '}
                     <button
                       type="button"
-                      onClick={() => setLegalModal('regulamin')}
-                      className="text-blue-700 underline hover:text-blue-900 transition-colors font-medium"
+                      onClick={(e) => { e.preventDefault(); e.stopPropagation(); setLegalModal('regulamin'); }}
+                      className="text-blue-700 underline hover:text-blue-900 transition-colors font-medium cursor-pointer"
                     >Regulamin</button>
                     {' '}oraz potwierdzam zapoznanie się z{' '}
                     <button
                       type="button"
-                      onClick={() => setLegalModal('polityka')}
-                      className="text-blue-700 underline hover:text-blue-900 transition-colors font-medium"
+                      onClick={(e) => { e.preventDefault(); e.stopPropagation(); setLegalModal('polityka'); }}
+                      className="text-blue-700 underline hover:text-blue-900 transition-colors font-medium cursor-pointer"
                     >Polityką Prywatności</button>. *
                   </span>
                 </label>
