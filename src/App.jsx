@@ -66,7 +66,7 @@ const LOGO_CONFIG = {
 const DATA_CONFIG = {
   materials: [
     { id: 1, name: 'Otoczak "Miodowy" 8/16', density: 1.5, price: 300 },
-    { id: 2, name: 'Otoczak "Mleczny" 16/32', density: 1.5, price: 500 },
+    { id: 2, name: 'Otoczak "Ice" 16/32', density: 1.5, price: 500 },
     { id: 3, name: 'Grys Granitowy 8/16', density: 1.6, price: 350 },
     { id: 4, name: 'Grys Granitowy 16/22', density: 1.6, price: 350 },
     { id: 5, name: 'Grys Bazaltowy 16/22', density: 1.6, price: 300 },
@@ -304,34 +304,32 @@ export default function App() {
 
             {/* Kolumna 1: Logo + "Śledź nas" + ikony */}
             <div className="flex flex-col items-center text-center md:items-start md:text-left">
-              <div className="bg-white/5 p-4 rounded-2xl border border-white/10">
-                <img src={LOGO_CONFIG.url} alt={LOGO_CONFIG.alt} className="h-10 w-auto brightness-0 invert opacity-90" />
-              </div>
+              <img src={LOGO_CONFIG.url} alt={LOGO_CONFIG.alt} className="h-12 w-auto brightness-0 invert opacity-90" />
 
               {/* Śledź nas — na desktop zepchnięty na dół przez mt-auto */}
               <div className="flex flex-col items-center md:items-start mt-6 md:mt-auto">
                 <p className="text-slate-300 text-[11px] font-semibold uppercase tracking-[0.2em] text-center md:text-left">
-                  Śledź nas w mediach społecznościowych
+                  Dołącz do nas
                 </p>
-                <div className="flex justify-center md:justify-start gap-1 mt-4">
+                <div className="flex justify-center md:justify-start gap-3 mt-4">
                   <a href="https://www.facebook.com/granteco" target="_blank" rel="noopener noreferrer"
-                    className="w-11 h-11 flex items-center justify-center rounded-xl group active:opacity-60 transition-opacity duration-200">
-                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"
-                      className="text-slate-400 group-hover:text-white group-hover:drop-shadow-[0_0_10px_rgba(59,130,246,0.7)] transition-all duration-300 stroke-current">
-                      <rect x="2" y="2" width="20" height="20" rx="5" /><path d="M16 8h-2a2 2 0 0 0-2 2v2h4l-.5 3H12v7" />
+                    className="w-10 h-10 flex items-center justify-center rounded-full border border-slate-600 group hover:border-blue-400 active:opacity-60 transition-all duration-300">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"
+                      className="text-slate-400 group-hover:text-blue-400 transition-colors duration-300">
+                      <path d="M13.397 20.997v-8.196h2.765l.411-3.209h-3.176V7.548c0-.926.258-1.56 1.587-1.56h1.684V3.127A22.336 22.336 0 0 0 14.201 3c-2.444 0-4.122 1.492-4.122 4.231v2.355H7.332v3.209h2.753v8.202h3.312z"/>
                     </svg>
                   </a>
                   <a href="https://www.instagram.com/pawel_granteco/" target="_blank" rel="noopener noreferrer"
-                    className="w-11 h-11 flex items-center justify-center rounded-xl group active:opacity-60 transition-opacity duration-200">
-                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"
-                      className="text-slate-400 group-hover:text-white group-hover:drop-shadow-[0_0_10px_rgba(236,72,153,0.7)] transition-all duration-300 stroke-current">
+                    className="w-10 h-10 flex items-center justify-center rounded-full border border-slate-600 group hover:border-pink-400 active:opacity-60 transition-all duration-300">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"
+                      className="text-slate-400 group-hover:text-pink-400 transition-colors duration-300 stroke-current">
                       <rect x="2" y="2" width="20" height="20" rx="5" /><circle cx="12" cy="12" r="4.5" /><circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none" />
                     </svg>
                   </a>
                   <a href="https://www.tiktok.com/@pawekrawiec4" target="_blank" rel="noopener noreferrer"
-                    className="w-11 h-11 flex items-center justify-center rounded-xl group active:opacity-60 transition-opacity duration-200">
-                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"
-                      className="text-slate-400 group-hover:text-white group-hover:drop-shadow-[0_0_10px_rgba(6,182,212,0.7)] transition-all duration-300 stroke-current">
+                    className="w-10 h-10 flex items-center justify-center rounded-full border border-slate-600 group hover:border-cyan-400 active:opacity-60 transition-all duration-300">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"
+                      className="text-slate-400 group-hover:text-cyan-400 transition-colors duration-300 stroke-current">
                       <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
                     </svg>
                   </a>
@@ -908,7 +906,7 @@ function TransportPage({ navigateTo }) {
       title: 'Precyzyjny Rozładunek HDS',
       specs: 'Wysięg: 7 metrów',
       description:
-        'Posiadamy dźwig umożliwiający szybki rozładunek towaru u klienta.',
+        'Posiadamy dźwig umożliwiający szybki rozładunek naszego towaru u klienta.',
       icon: Construction,
       highlight: false,
     },
@@ -1006,7 +1004,7 @@ function TransportPage({ navigateTo }) {
             <div className="bg-slate-800/60 backdrop-blur-md p-5 rounded-2xl border border-slate-700/50 flex flex-col items-center md:items-start text-center md:text-left hover:border-blue-500/50 transition-colors duration-300">
               <Clock className="text-indigo-400 mb-3" size={32} />
               <p className="text-white font-bold text-xl">Gwarancja Terminu</p>
-              <p className="text-slate-400 text-sm mt-1">Koniec z przestojami na budowie. Jesteśmy punktualni</p>
+              <p className="text-slate-400 text-sm mt-1">Dbamy o punktualność podczas realizacji zamówień</p>
             </div>
           </div>
         </div>
@@ -1031,7 +1029,7 @@ function TransportPage({ navigateTo }) {
           </h2>
 
           <p className="text-slate-600 text-lg max-w-3xl mx-auto">
-            Sześć filarów doskonałości operacyjnej naprzeciw Twoim oczekiwaniom
+            Sześć filarów najwyższej jakości, które odpowiadają na Twoje wymagania
           </p>
         </div>
 
@@ -1464,7 +1462,7 @@ function StonePage({ navigateTo }) {
           </h1>
 
           <p className="text-slate-400 text-lg md:text-xl max-w-2xl mb-10">
-            Odkryj szeroki wybór naturalnych kruszyw. Od śnieżnobiałej Marianny po elegancki Bazalt – dostarczamy kamień, który całkowicie odmieni Twoją posesję. Oprócz asortymentu w katalogu posiadamy również piasek 0/2.
+            Odkryj szeroki wybór naturalnych kruszyw. Od "Białej Marianny" po elegancki Bazalt – dostarczamy kamień, który całkowicie odmieni Twoją posesję. Oprócz asortymentu w katalogu posiadamy również piasek 0/2.
           </p>
 
           {/* Kafelki statystyk */}
@@ -1472,20 +1470,20 @@ function StonePage({ navigateTo }) {
 
             <div className="bg-slate-800/60 backdrop-blur-md p-5 rounded-2xl border border-slate-700/50 flex flex-col items-center md:items-start text-center md:text-left hover:border-emerald-500/50 transition-colors duration-300">
               <Gem className="text-emerald-400 mb-3" size={32} />
-              <p className="text-white font-bold text-xl">Szeroki Wybór</p>
+              <p className="text-white font-bold text-xl">Szeroki Wybór polskich kruszyw</p>
               <p className="text-slate-400 text-sm mt-1">Bogata paleta barw i frakcji dopasowana do każdego projektu</p>
             </div>
 
             <div className="bg-slate-800/60 backdrop-blur-md p-5 rounded-2xl border border-slate-700/50 flex flex-col items-center md:items-start text-center md:text-left hover:border-emerald-500/50 transition-colors duration-300">
               <Weight className="text-teal-400 mb-3" size={32} />
               <p className="text-white font-bold text-xl">Dowolna Ilość</p>
-              <p className="text-slate-400 text-sm mt-1">Sprzedaż detaliczna i hurtowa z wygodną dostawą pod drzwi</p>
+              <p className="text-slate-400 text-sm mt-1">Sprzedaż detaliczna (0,5 - 7t) i hurtowa (25t) z wygodną dostawą pod drzwi</p>
             </div>
 
             <div className="bg-slate-800/60 backdrop-blur-md p-5 rounded-2xl border border-slate-700/50 flex flex-col items-center md:items-start text-center md:text-left hover:border-emerald-500/50 transition-colors duration-300">
               <ShieldCheck className="text-green-400 mb-3" size={32} />
               <p className="text-white font-bold text-xl">Najwyższa Jakość</p>
-              <p className="text-slate-400 text-sm mt-1">Czyste, starannie wyselekcjonowane i płukane kruszywa</p>
+              <p className="text-slate-400 text-sm mt-1">Czyste, starannie wyselekcjonowane i płukane kruszywa z polskich kopalń</p>
             </div>
 
           </div>
@@ -1570,7 +1568,7 @@ function StonePage({ navigateTo }) {
               Certyfikowane źródła
             </h3>
             <p className="text-slate-500 text-sm leading-relaxed">
-              Kamień pochodzi wyłącznie z certyfikowanych kamieniołomów
+              Kamień pochodzi wyłącznie z certyfikowanych kopalń
             </p>
           </div>
           <div className="text-center">
@@ -1765,13 +1763,13 @@ function CoalPage({ navigateTo }) {
         <div className="relative z-10 text-center mb-12 pt-8">
           <div className="inline-flex items-center gap-2 bg-slate-800 text-white px-6 py-3 rounded-full mb-4 font-bold shadow-lg border border-slate-700 hover:border-orange-500/50 transition-colors">
             <Sparkles className="text-orange-500" size={20} />
-            Kompetencje Opałowe
+            Ogrzej swój dom
           </div>
           <h2 className="text-3xl md:text-4xl font-black text-slate-800 mb-3">
             Ciepło Najwyższej Jakości
           </h2>
           <p className="text-slate-600 text-lg max-w-3xl mx-auto">
-            Polski węgiel kamienny z gwarancją jakości i terminowych dostaw
+            Węgiel kamienny z gwarancją jakości i terminowych dostaw
           </p>
         </div>
 
@@ -1834,7 +1832,7 @@ function CoalPage({ navigateTo }) {
             </h3>
           </div>
           <p className="text-lg text-orange-100 mb-4">
-            Zamów wysokiej jakości węgiel z dostawą do domu. Atesty w cenie
+            Zamów wysokiej jakości węgiel z dostawą do domu.
           </p>
           <div className="flex items-center gap-2 text-orange-200 text-sm">
             <Check size={18} />
@@ -2150,7 +2148,7 @@ const MATERIALS = [
   },
   {
     id: 2,
-    name: 'Otoczak "Mleczny" 16/32',
+    name: 'Otoczak "Ice" 16/32',
     density: 1.5,
     price: 500,
     margin: 'high',
