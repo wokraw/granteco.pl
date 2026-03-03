@@ -51,7 +51,7 @@ import {
   Cloud,
 } from 'lucide-react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
-import Tilt from 'react-parallax-tilt';
+import Tilt from 'react-parallax-tilt'; // UNUSED — kept for package compat, not rendered
 
 // IMPORTUJ LOGO BEZPOŚREDNIO
 import logoImage from '/public/logo.svg?url';
@@ -1045,7 +1045,7 @@ function TransportPage({ navigateTo }) {
               return (
                 <div
                   key={capability.id}
-                  className="bg-gradient-to-br from-blue-800 to-blue-950 text-white rounded-xl shadow-2xl p-6 hover:-translate-y-2 hover:shadow-blue-900/50 transition-all duration-300 group border-none animate-fadeInUp"
+                  className="bg-gradient-to-br from-blue-800 to-blue-950 text-white rounded-xl shadow-2xl p-6 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(30,58,138,0.35)] transition-all duration-500 ease-out group border-none animate-fadeInUp"
                   style={{ animationDelay: `${idx * 100}ms` }}
                 >
                   <div className="bg-white/20 backdrop-blur-sm text-white p-4 rounded-lg mb-4 inline-block shadow-lg">
@@ -1496,7 +1496,7 @@ function StonePage({ navigateTo }) {
         {products.map((product, idx) => (
           <div
             key={product.id}
-            className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden group border border-slate-100 animate-fadeInUp"
+            className="bg-white rounded-2xl shadow-lg hover:shadow-2xl hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(30,58,138,0.25)] transition-all duration-500 ease-out overflow-hidden group border border-slate-100 animate-fadeInUp"
             style={{ animationDelay: `${idx * 100}ms` }}
           >
             <div className="relative aspect-[4/3] overflow-hidden bg-slate-100">
@@ -1909,7 +1909,7 @@ function CalculatorPage({ navigateTo, setLegalModal }) {
         animate={calcInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.8, ease: 'easeOut' }}
       >
-        <CalculatorComponent />
+        <CalculatorComponent setLegalModal={setLegalModal} />
       </motion.div>
     </div>
   );
@@ -2397,7 +2397,7 @@ function useIsTouchDevice() {
   return isTouch;
 }
 
-function CalculatorComponent() {
+function CalculatorComponent({ setLegalModal }) {
   const isTouch = useIsTouchDevice();
   const cardRef = useRef(null);
   const [mobileInFocus, setMobileInFocus] = useState(false);
@@ -2594,19 +2594,7 @@ function CalculatorComponent() {
 
   return (
     <>
-    <Tilt
-      tiltEnable={!isTouch}
-      tiltMaxAngleX={8}
-      tiltMaxAngleY={8}
-      perspective={1000}
-      scale={1.02}
-      transitionSpeed={2000}
-      glareEnable={!isTouch}
-      glareMaxOpacity={0.15}
-      glareColor="#ffffff"
-      glarePosition="all"
-      glareBorderRadius="24px"
-    >
+    <div className="transition-all duration-500 ease-out hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(30,58,138,0.3)] rounded-3xl">
       {/* ── GŁÓWNY KONTENER — ciemny grafit ── */}
       <div
         ref={cardRef}
@@ -3168,25 +3156,33 @@ function CalculatorComponent() {
 
               {/* Zgody prawne */}
               <div className="space-y-3 mb-5">
-                <label className="flex items-start gap-3 cursor-pointer group">
-                  <input type="checkbox" className="mt-1 w-4 h-4 accent-blue-900 bg-slate-100 border-slate-300 rounded focus:ring-blue-900" required />
-                  <span className="text-xs text-slate-500 group-hover:text-slate-700 transition-colors leading-relaxed">
+                {/* Checkbox 1 — checkbox i tekst rozdzielone, button POZA label */}
+                <div className="flex items-start gap-3 group">
+                  <input
+                    id="check-regulamin"
+                    type="checkbox"
+                    className="mt-1 w-4 h-4 accent-blue-900 bg-slate-100 border-slate-300 rounded focus:ring-blue-900 flex-shrink-0 cursor-pointer"
+                    required
+                  />
+                  <span className="text-xs text-slate-500 leading-relaxed">
                     Akceptuję{' '}
                     <button
                       type="button"
-                      onClick={(e) => { e.preventDefault(); e.stopPropagation(); setLegalModal('regulamin'); }}
-                      className="text-blue-700 underline hover:text-blue-900 transition-colors font-medium cursor-pointer"
+                      onClick={() => setLegalModal('regulamin')}
+                      className="text-blue-700 underline hover:text-blue-900 active:opacity-60 transition-colors font-medium cursor-pointer"
                     >Regulamin</button>
                     {' '}oraz potwierdzam zapoznanie się z{' '}
                     <button
                       type="button"
-                      onClick={(e) => { e.preventDefault(); e.stopPropagation(); setLegalModal('polityka'); }}
-                      className="text-blue-700 underline hover:text-blue-900 transition-colors font-medium cursor-pointer"
+                      onClick={() => setLegalModal('polityka')}
+                      className="text-blue-700 underline hover:text-blue-900 active:opacity-60 transition-colors font-medium cursor-pointer"
                     >Polityką Prywatności</button>. *
                   </span>
-                </label>
+                </div>
+
+                {/* Checkbox 2 */}
                 <label className="flex items-start gap-3 cursor-pointer group">
-                  <input type="checkbox" className="mt-1 w-4 h-4 accent-blue-900 bg-slate-100 border-slate-300 rounded focus:ring-blue-900" required />
+                  <input type="checkbox" className="mt-1 w-4 h-4 accent-blue-900 bg-slate-100 border-slate-300 rounded focus:ring-blue-900 flex-shrink-0" required />
                   <span className="text-xs text-slate-500 group-hover:text-slate-700 transition-colors leading-relaxed">
                     Wyrażam zgodę na przetwarzanie moich danych osobowych w celu realizacji zamówienia. *
                   </span>
@@ -3223,7 +3219,7 @@ function CalculatorComponent() {
     )}
     {/* --- KONIEC MODALA --- */}
       </div>
-    </Tilt>
+    </div>
     </>
   );
 }
