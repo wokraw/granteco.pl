@@ -2150,7 +2150,7 @@ const MATERIALS = [
   },
   {
     id: 2,
-    name: 'Otoczak "Ice" 16/32',
+    name: 'Otoczak "Mleczny" 16/32',
     density: 1.5,
     price: 500,
     margin: 'high',
