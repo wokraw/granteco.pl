@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.1.18",
+    "@vercel/analytics": "^1.6.1",
     "autoprefixer": "^10.4.24",
     "framer-motion": "^12.34.0",
     "lucide-react": "^0.564.0",

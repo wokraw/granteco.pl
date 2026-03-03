@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/react";
 import React, { useState, useRef, useEffect } from 'react';
 import LegalModal from './LegalModal.jsx';
 import { REGULAMIN, POLITYKA_PRYWATNOSCI } from './LegalContent.js';
@@ -3220,4 +3221,4 @@ function CalculatorComponent({ setLegalModal }) {
     </div>
     </>
   );
-}
+}<Analytics />
