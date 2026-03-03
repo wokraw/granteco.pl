@@ -66,7 +66,7 @@ const LOGO_CONFIG = {
 const DATA_CONFIG = {
   materials: [
     { id: 1, name: 'Otoczak "Miodowy" 8/16', density: 1.5, price: 300 },
-    { id: 2, name: 'Otoczak "Ice" 16/32', density: 1.5, price: 500 },
+    { id: 2, name: 'Otoczak "Mleczny" 16/32', density: 1.5, price: 500 },
     { id: 3, name: 'Grys Granitowy 8/16', density: 1.6, price: 350 },
     { id: 4, name: 'Grys Granitowy 16/22', density: 1.6, price: 350 },
     { id: 5, name: 'Grys Bazaltowy 16/22', density: 1.6, price: 300 },
