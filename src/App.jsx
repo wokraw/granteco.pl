@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import LegalModal from './LegalModal';
-import { REGULAMIN, POLITYKA_PRYWATNOSCI } from './LegalContent';
+import LegalModal from './LegalModal.jsx';
+import { REGULAMIN, POLITYKA_PRYWATNOSCI } from './LegalContent.js';
 import {
   Phone,
   Calculator,
@@ -398,7 +398,26 @@ export default function App() {
           {/* Dolny pasek */}
           <div className="border-t border-slate-800/50 pt-8 pb-2">
 
-            {/* MOBILE: wyśrodkowana kolumna NIP → copyright */}
+            {/* Linki prawne — widoczne na obu platformach */}
+            <div className="flex justify-center gap-6 mb-5">
+              <button
+                type="button"
+                onClick={() => setLegalModal('regulamin')}
+                className="text-slate-500 text-xs hover:text-slate-300 active:opacity-60 transition-colors underline underline-offset-2"
+              >
+                Regulamin
+              </button>
+              <span className="text-slate-700 text-xs">·</span>
+              <button
+                type="button"
+                onClick={() => setLegalModal('polityka')}
+                className="text-slate-500 text-xs hover:text-slate-300 active:opacity-60 transition-colors underline underline-offset-2"
+              >
+                Polityka Prywatności
+              </button>
+            </div>
+
+            {/* MOBILE: wyśrodkowana kolumna */}
             <div className="flex flex-col items-center justify-center gap-3 md:hidden">
               <p className="text-sm text-slate-400 text-center">Projekt i wykonanie: <a href="https://wopro3d.com" target="_blank" rel="noopener noreferrer" className="font-medium hover:text-white transition-colors">Wopro3Design</a></p>
               <p className="text-slate-500 text-xs text-center">
