@@ -1,4 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
+import LegalModal from './LegalModal';
+import { REGULAMIN, POLITYKA_PRYWATNOSCI } from './LegalContent';
 import {
   Phone,
   Calculator,
@@ -64,7 +66,7 @@ const LOGO_CONFIG = {
 const DATA_CONFIG = {
   materials: [
     { id: 1, name: 'Otoczak "Miodowy" 8/16', density: 1.5, price: 300 },
-    { id: 2, name: 'Otoczak "Mleczny" 16/32', density: 1.5, price: 500 },
+    { id: 2, name: 'Otoczak "Ice" 16/32', density: 1.5, price: 500 },
     { id: 3, name: 'Grys Granitowy 8/16', density: 1.6, price: 350 },
     { id: 4, name: 'Grys Granitowy 16/22', density: 1.6, price: 350 },
     { id: 5, name: 'Grys Bazaltowy 16/22', density: 1.6, price: 300 },
@@ -169,6 +171,7 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
 export default function App() {
   const [currentPage, setCurrentPage] = useState('start');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [legalModal, setLegalModal] = useState(null); // 'regulamin' | 'polityka' | null
 
   const navigateTo = (page) => {
     setCurrentPage(page);
@@ -287,101 +290,48 @@ export default function App() {
         {currentPage === 'stone' && <StonePage navigateTo={navigateTo} />}
         {currentPage === 'coal' && <CoalPage navigateTo={navigateTo} />}
         {currentPage === 'kalkulator' && (
-          <CalculatorPage navigateTo={navigateTo} />
+          <CalculatorPage navigateTo={navigateTo} setLegalModal={setLegalModal} />
         )}
         {currentPage === 'kontakt' && <ContactPage navigateTo={navigateTo} />}
       </div>
 
       {/* --- STOPKA (PREMIUM MINIMAL) --- */}
-      <footer
-        className="bg-slate-950 border-t border-slate-800/50 pt-16 mt-20"
-        style={{
-          paddingBottom:
-            'max(40px, calc(24px + env(safe-area-inset-bottom, 0px)))',
-        }}
-      >
+      <footer className="bg-slate-950 border-t border-slate-800/50 pt-16 mt-20" style={{ paddingBottom: 'max(40px, calc(24px + env(safe-area-inset-bottom, 0px)))' }}>
         <div className="max-w-7xl mx-auto px-6 md:px-8">
+
           {/* Górna siatka: mobile = pionowy stos wyśrodkowany, desktop = 3 kolumny */}
           <div className="flex flex-col items-center text-center space-y-10 md:space-y-0 md:grid md:grid-cols-3 md:gap-12 md:items-stretch mb-14 md:mb-12">
+
             {/* Kolumna 1: Logo + "Śledź nas" + ikony */}
             <div className="flex flex-col items-center text-center md:items-start md:text-left">
               <div className="bg-white/5 p-4 rounded-2xl border border-white/10">
-                <img
-                  src={LOGO_CONFIG.url}
-                  alt={LOGO_CONFIG.alt}
-                  className="h-10 w-auto brightness-0 invert opacity-90"
-                />
+                <img src={LOGO_CONFIG.url} alt={LOGO_CONFIG.alt} className="h-10 w-auto brightness-0 invert opacity-90" />
               </div>
 
               {/* Śledź nas — na desktop zepchnięty na dół przez mt-auto */}
               <div className="flex flex-col items-center md:items-start mt-6 md:mt-auto">
                 <p className="text-slate-300 text-[11px] font-semibold uppercase tracking-[0.2em] text-center md:text-left">
-                  Dołącz do nas
+                  Śledź nas w mediach społecznościowych
                 </p>
                 <div className="flex justify-center md:justify-start gap-1 mt-4">
-                  <a
-                    href="https://www.facebook.com/granteco"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-11 h-11 flex items-center justify-center rounded-xl group active:opacity-60 transition-opacity duration-200"
-                  >
-                    <svg
-                      viewBox="0 0 24 24"
-                      width="22"
-                      height="22"
-                      fill="none"
-                      strokeWidth="1.8"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="text-slate-400 group-hover:text-white group-hover:drop-shadow-[0_0_10px_rgba(59,130,246,0.7)] transition-all duration-300 stroke-current"
-                    >
-                      <rect x="2" y="2" width="20" height="20" rx="5" />
-                      <path d="M16 8h-2a2 2 0 0 0-2 2v2h4l-.5 3H12v7" />
+                  <a href="https://www.facebook.com/granteco" target="_blank" rel="noopener noreferrer"
+                    className="w-11 h-11 flex items-center justify-center rounded-xl group active:opacity-60 transition-opacity duration-200">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"
+                      className="text-slate-400 group-hover:text-white group-hover:drop-shadow-[0_0_10px_rgba(59,130,246,0.7)] transition-all duration-300 stroke-current">
+                      <rect x="2" y="2" width="20" height="20" rx="5" /><path d="M16 8h-2a2 2 0 0 0-2 2v2h4l-.5 3H12v7" />
                     </svg>
                   </a>
-                  <a
-                    href="https://www.instagram.com/pawel_granteco/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-11 h-11 flex items-center justify-center rounded-xl group active:opacity-60 transition-opacity duration-200"
-                  >
-                    <svg
-                      viewBox="0 0 24 24"
-                      width="22"
-                      height="22"
-                      fill="none"
-                      strokeWidth="1.8"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="text-slate-400 group-hover:text-white group-hover:drop-shadow-[0_0_10px_rgba(236,72,153,0.7)] transition-all duration-300 stroke-current"
-                    >
-                      <rect x="2" y="2" width="20" height="20" rx="5" />
-                      <circle cx="12" cy="12" r="4.5" />
-                      <circle
-                        cx="17.5"
-                        cy="6.5"
-                        r="0.8"
-                        fill="currentColor"
-                        stroke="none"
-                      />
+                  <a href="https://www.instagram.com/pawel_granteco/" target="_blank" rel="noopener noreferrer"
+                    className="w-11 h-11 flex items-center justify-center rounded-xl group active:opacity-60 transition-opacity duration-200">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"
+                      className="text-slate-400 group-hover:text-white group-hover:drop-shadow-[0_0_10px_rgba(236,72,153,0.7)] transition-all duration-300 stroke-current">
+                      <rect x="2" y="2" width="20" height="20" rx="5" /><circle cx="12" cy="12" r="4.5" /><circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none" />
                     </svg>
                   </a>
-                  <a
-                    href="https://www.tiktok.com/@pawekrawiec4"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-11 h-11 flex items-center justify-center rounded-xl group active:opacity-60 transition-opacity duration-200"
-                  >
-                    <svg
-                      viewBox="0 0 24 24"
-                      width="22"
-                      height="22"
-                      fill="none"
-                      strokeWidth="1.8"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="text-slate-400 group-hover:text-white group-hover:drop-shadow-[0_0_10px_rgba(6,182,212,0.7)] transition-all duration-300 stroke-current"
-                    >
+                  <a href="https://www.tiktok.com/@pawekrawiec4" target="_blank" rel="noopener noreferrer"
+                    className="w-11 h-11 flex items-center justify-center rounded-xl group active:opacity-60 transition-opacity duration-200">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"
+                      className="text-slate-400 group-hover:text-white group-hover:drop-shadow-[0_0_10px_rgba(6,182,212,0.7)] transition-all duration-300 stroke-current">
                       <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
                     </svg>
                   </a>
@@ -391,15 +341,10 @@ export default function App() {
 
             {/* Kolumna 2: Kontakt */}
             <div className="flex flex-col items-center text-center md:items-start md:text-left">
-              <h3 className="text-white font-bold text-lg mb-6 tracking-wide">
-                Kontakt
-              </h3>
+              <h3 className="text-white font-bold text-lg mb-6 tracking-wide">Kontakt</h3>
               <ul className="flex flex-col gap-4 w-fit mx-auto md:mx-0 text-slate-400 text-sm">
                 <li>
-                  <a
-                    href="tel:662333188"
-                    className="flex items-center gap-3 hover:text-blue-400 transition-colors group"
-                  >
+                  <a href="tel:662333188" className="flex items-center gap-3 hover:text-blue-400 transition-colors group">
                     <div className="bg-slate-900 p-2 rounded-lg border border-slate-800 group-hover:border-blue-900 transition-colors">
                       <Phone size={16} className="text-blue-400" />
                     </div>
@@ -407,10 +352,7 @@ export default function App() {
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="mailto:biuro@granteco.pl"
-                    className="flex items-center gap-3 hover:text-blue-400 transition-colors group"
-                  >
+                  <a href="mailto:biuro@granteco.pl" className="flex items-center gap-3 hover:text-blue-400 transition-colors group">
                     <div className="bg-slate-900 p-2 rounded-lg border border-slate-800 group-hover:border-blue-900 transition-colors">
                       <Mail size={16} className="text-blue-400" />
                     </div>
@@ -426,73 +368,52 @@ export default function App() {
               </ul>
             </div>
             <div className="flex flex-col items-center text-center md:items-start md:text-left">
-              <h3 className="text-white font-bold text-lg mb-6 tracking-wide">
-                Godziny otwarcia
-              </h3>
+              <h3 className="text-white font-bold text-lg mb-6 tracking-wide">Godziny otwarcia</h3>
               <div className="flex justify-center md:justify-start">
-                <ul className="space-y-4 text-slate-400 text-sm">
-                  <div className="flex flex-col gap-4 w-fit mx-auto md:mx-0">
-                    <li className="flex items-center gap-3">
-                      <div className="bg-slate-900 p-2 rounded-lg border border-slate-800">
-                        <Clock size={16} className="text-blue-400" />
-                      </div>
-                      Pn - Pt: 8:30 - 16:30
-                    </li>
-                    <li className="flex items-center gap-3">
-                      <div className="bg-slate-900 p-2 rounded-lg border border-slate-800">
-                        <Clock size={16} className="text-blue-400" />
-                      </div>
-                      Sobota: 9:00 - 12:00
-                    </li>
+              <ul className="space-y-4 text-slate-400 text-sm">
+                <div className="flex flex-col gap-4 w-fit mx-auto md:mx-0">
+                <li className="flex items-center gap-3">
+                  <div className="bg-slate-900 p-2 rounded-lg border border-slate-800">
+                    <Clock size={16} className="text-blue-400" />
                   </div>
-                  <li className="flex items-center gap-3 mt-6 text-amber-400 bg-amber-400/10 px-4 py-2 rounded-lg border border-amber-400/20">
-                    <AlertCircle size={16} />
-                    <span>Przed przyjazdem prosimy o kontakt</span>
-                  </li>
-                </ul>
+                  Pn - Pt: 8:30 - 16:30
+                </li>
+                <li className="flex items-center gap-3">
+                  <div className="bg-slate-900 p-2 rounded-lg border border-slate-800">
+                    <Clock size={16} className="text-blue-400" />
+                  </div>
+                  Sobota: 9:00 - 12:00
+                </li>
+                </div>
+                <li className="flex items-center gap-3 mt-6 text-amber-400 bg-amber-400/10 px-4 py-2 rounded-lg border border-amber-400/20">
+                  <AlertCircle size={16} />
+                  <span>Przed przyjazdem prosimy o kontakt</span>
+                </li>
+              </ul>
               </div>
             </div>
+
           </div>
 
           {/* Dolny pasek */}
           <div className="border-t border-slate-800/50 pt-8 pb-2">
+
             {/* MOBILE: wyśrodkowana kolumna NIP → copyright */}
             <div className="flex flex-col items-center justify-center gap-3 md:hidden">
-              <p className="text-sm text-slate-400 text-center">
-                Projekt i wykonanie:{' '}
-                <a
-                  href="https://wopro3d.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-medium hover:text-white transition-colors"
-                >
-                  Wopro3Design
-                </a>
-              </p>
+              <p className="text-sm text-slate-400 text-center">Projekt i wykonanie: <a href="https://wopro3d.com" target="_blank" rel="noopener noreferrer" className="font-medium hover:text-white transition-colors">Wopro3Design</a></p>
               <p className="text-slate-500 text-xs text-center">
-                &copy; {new Date().getFullYear()} Granteco. Wszelkie prawa
-                zastrzeżone.
+                &copy; {new Date().getFullYear()} Granteco. Wszelkie prawa zastrzeżone.
               </p>
             </div>
 
             {/* DESKTOP: copyright po lewej | podpis po prawej */}
             <div className="hidden md:flex items-center justify-between">
               <p className="text-slate-500 text-sm">
-                &copy; {new Date().getFullYear()} Granteco. Wszelkie prawa
-                zastrzeżone.
+                &copy; {new Date().getFullYear()} Granteco. Wszelkie prawa zastrzeżone.
               </p>
-              <p className="text-sm text-slate-400">
-                Projekt i wykonanie:{' '}
-                <a
-                  href="https://wopro3d.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-medium hover:text-white transition-colors"
-                >
-                  Wopro3Design
-                </a>
-              </p>
+              <p className="text-sm text-slate-400">Projekt i wykonanie: <a href="https://wopro3d.com" target="_blank" rel="noopener noreferrer" className="font-medium hover:text-white transition-colors">Wopro3Design</a></p>
             </div>
+
           </div>
         </div>
       </footer>
@@ -501,62 +422,14 @@ export default function App() {
       {/* Pływający przycisk telefonu — Contextual 3D Sphere */}
       {(() => {
         const ctaThemes = {
-          start: {
-            base: 'rgba(15,23,62,0.97)',
-            mid: 'rgba(30,45,100,0.7)',
-            glow: 'rgba(59,130,246,0.4)',
-            ring: 'rgba(99,150,255,0.3)',
-            hover: 'rgba(59,130,246,0.5)',
-          },
-          transport: {
-            base: 'rgba(15,23,62,0.97)',
-            mid: 'rgba(30,45,100,0.7)',
-            glow: 'rgba(59,130,246,0.4)',
-            ring: 'rgba(99,150,255,0.3)',
-            hover: 'rgba(59,130,246,0.5)',
-          },
-          hydraulics: {
-            base: 'rgba(45,30,5,0.97)',
-            mid: 'rgba(100,65,10,0.7)',
-            glow: 'rgba(245,158,11,0.45)',
-            ring: 'rgba(255,190,60,0.3)',
-            hover: 'rgba(245,158,11,0.6)',
-          },
-          stone: {
-            base: 'rgba(10,35,30,0.97)',
-            mid: 'rgba(15,80,65,0.65)',
-            glow: 'rgba(20,184,166,0.45)',
-            ring: 'rgba(50,210,180,0.3)',
-            hover: 'rgba(20,184,166,0.6)',
-          },
-          coal: {
-            base: 'rgba(20,10,5,0.98)',
-            mid: 'rgba(60,30,10,0.7)',
-            glow: 'rgba(234,88,12,0.45)',
-            ring: 'rgba(255,120,30,0.3)',
-            hover: 'rgba(234,88,12,0.6)',
-          },
-          kalkulator: {
-            base: 'rgba(10,25,50,0.97)',
-            mid: 'rgba(20,55,100,0.65)',
-            glow: 'rgba(59,130,246,0.4)',
-            ring: 'rgba(99,150,255,0.3)',
-            hover: 'rgba(59,130,246,0.5)',
-          },
-          kontakt: {
-            base: 'rgba(15,23,62,0.97)',
-            mid: 'rgba(30,45,100,0.7)',
-            glow: 'rgba(59,130,246,0.4)',
-            ring: 'rgba(99,150,255,0.3)',
-            hover: 'rgba(59,130,246,0.5)',
-          },
-          welding: {
-            base: 'rgba(40,20,5,0.97)',
-            mid: 'rgba(90,50,10,0.65)',
-            glow: 'rgba(245,158,11,0.4)',
-            ring: 'rgba(255,190,60,0.3)',
-            hover: 'rgba(245,158,11,0.55)',
-          },
+          start:      { base: 'rgba(15,23,62,0.97)',  mid: 'rgba(30,45,100,0.7)',  glow: 'rgba(59,130,246,0.4)',   ring: 'rgba(99,150,255,0.3)',  hover: 'rgba(59,130,246,0.5)'  },
+          transport:  { base: 'rgba(15,23,62,0.97)',  mid: 'rgba(30,45,100,0.7)',  glow: 'rgba(59,130,246,0.4)',   ring: 'rgba(99,150,255,0.3)',  hover: 'rgba(59,130,246,0.5)'  },
+          hydraulics: { base: 'rgba(45,30,5,0.97)',   mid: 'rgba(100,65,10,0.7)', glow: 'rgba(245,158,11,0.45)',  ring: 'rgba(255,190,60,0.3)',  hover: 'rgba(245,158,11,0.6)'  },
+          stone:      { base: 'rgba(10,35,30,0.97)',  mid: 'rgba(15,80,65,0.65)', glow: 'rgba(20,184,166,0.45)',  ring: 'rgba(50,210,180,0.3)',  hover: 'rgba(20,184,166,0.6)'  },
+          coal:       { base: 'rgba(20,10,5,0.98)',   mid: 'rgba(60,30,10,0.7)',  glow: 'rgba(234,88,12,0.45)',   ring: 'rgba(255,120,30,0.3)',  hover: 'rgba(234,88,12,0.6)'   },
+          kalkulator: { base: 'rgba(10,25,50,0.97)',  mid: 'rgba(20,55,100,0.65)',glow: 'rgba(59,130,246,0.4)',   ring: 'rgba(99,150,255,0.3)',  hover: 'rgba(59,130,246,0.5)'  },
+          kontakt:    { base: 'rgba(15,23,62,0.97)',  mid: 'rgba(30,45,100,0.7)', glow: 'rgba(59,130,246,0.4)',   ring: 'rgba(99,150,255,0.3)',  hover: 'rgba(59,130,246,0.5)'  },
+          welding:    { base: 'rgba(40,20,5,0.97)',   mid: 'rgba(90,50,10,0.65)', glow: 'rgba(245,158,11,0.4)',   ring: 'rgba(255,190,60,0.3)',  hover: 'rgba(245,158,11,0.55)' },
         };
         const t = ctaThemes[currentPage] || ctaThemes.start;
         return (
@@ -566,8 +439,7 @@ export default function App() {
             style={{
               background: `radial-gradient(circle at 35% 28%, ${t.mid} 0%, ${t.base} 60%, rgba(5,5,8,1) 100%)`,
               boxShadow: `0 0 0 1px ${t.ring}, 0 10px 40px rgba(0,0,0,0.7), 0 2px 8px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.15), inset 0 0 35px ${t.glow}`,
-              transition:
-                'transform 0.4s ease-out, box-shadow 0.7s ease-in-out, background 0.7s ease-in-out',
+              transition: 'transform 0.4s ease-out, box-shadow 0.7s ease-in-out, background 0.7s ease-in-out',
               willChange: 'transform',
               transform: 'translateZ(0)',
               paddingBottom: 'max(16px, env(safe-area-inset-bottom, 16px))',
@@ -590,14 +462,18 @@ export default function App() {
             <div className="absolute top-2 left-3 w-8 h-3 rounded-full bg-white/25 blur-sm rotate-[-20deg] pointer-events-none"></div>
             <div className="absolute top-3 left-4 w-4 h-1.5 rounded-full bg-white/40 blur-[2px] rotate-[-20deg] pointer-events-none"></div>
             {/* Ikona */}
-            <Phone
-              size={26}
-              className="relative z-10 text-white/90 group-hover:text-white transition-colors duration-300"
-              strokeWidth={1.5}
-            />
+            <Phone size={26} className="relative z-10 text-white/90 group-hover:text-white transition-colors duration-300" strokeWidth={1.5} />
           </a>
         );
       })()}
+
+      {/* --- MODAL DOKUMENTÓW PRAWNYCH --- */}
+      <LegalModal
+        isOpen={legalModal !== null}
+        onClose={() => setLegalModal(null)}
+        title={legalModal === 'regulamin' ? 'Regulamin Sklepu Internetowego' : 'Polityka Prywatności'}
+        content={legalModal === 'regulamin' ? REGULAMIN : POLITYKA_PRYWATNOSCI}
+      />
 
       <style jsx>{`
         @keyframes fadeInDown {
@@ -693,42 +569,12 @@ function StartPage({ navigateTo }) {
   const [hoveredService, setHoveredService] = useState(null);
 
   const orbConfig = {
-    transport: {
-      label: 'Transport ciężarowy',
-      light1: 'bg-blue-600',
-      light2: 'bg-blue-500',
-      light3: 'bg-blue-700',
-      light4: 'bg-sky-500',
-    },
-    hydraulics: {
-      label: 'Hydraulika siłowa',
-      light1: 'bg-amber-500',
-      light2: 'bg-orange-400',
-      light3: 'bg-amber-600',
-      light4: 'bg-yellow-400',
-    },
-    stone: {
-      label: 'Kamień ogrodowy',
-      light1: 'bg-teal-500',
-      light2: 'bg-emerald-500',
-      light3: 'bg-teal-600',
-      light4: 'bg-cyan-500',
-    },
-    coal: {
-      label: 'Węgiel kamienny',
-      light1: 'bg-orange-600',
-      light2: 'bg-red-500',
-      light3: 'bg-orange-700',
-      light4: 'bg-red-600',
-    },
+    transport:  { label: 'Transport ciężarowy',  light1: 'bg-blue-600',   light2: 'bg-blue-500',   light3: 'bg-blue-700',   light4: 'bg-sky-500'    },
+    hydraulics: { label: 'Hydraulika siłowa',    light1: 'bg-amber-500',  light2: 'bg-orange-400', light3: 'bg-amber-600',  light4: 'bg-yellow-400' },
+    stone:      { label: 'Kamień ogrodowy',      light1: 'bg-teal-500',   light2: 'bg-emerald-500',light3: 'bg-teal-600',   light4: 'bg-cyan-500'   },
+    coal:       { label: 'Węgiel kamienny',      light1: 'bg-orange-600', light2: 'bg-red-500',    light3: 'bg-orange-700', light4: 'bg-red-600'    },
   };
-  const orb = orbConfig[hoveredService] || {
-    label: 'Zapraszamy do zapoznania się z naszą ofertą',
-    light1: 'bg-blue-500',
-    light2: 'bg-amber-500',
-    light3: 'bg-teal-500',
-    light4: 'bg-orange-500',
-  };
+  const orb = orbConfig[hoveredService] || { label: 'Zapraszamy do zapoznania się z ofertą', light1: 'bg-blue-500', light2: 'bg-amber-500', light3: 'bg-teal-500', light4: 'bg-orange-500' };
   const orbActive = hoveredService !== null;
 
   return (
@@ -754,9 +600,9 @@ function StartPage({ navigateTo }) {
           {/* --- SZKLANY RDZEN (Reactive Glass Core) --- */}
           <div className="flex justify-center mb-10 mt-2">
             <div className="relative cursor-default">
+
               {/* Zewnętrzna aureola — rozległa poświata za kulą */}
-              <div
-                className="absolute inset-[-30%] rounded-full pointer-events-none"
+              <div className="absolute inset-[-30%] rounded-full pointer-events-none"
                 style={{
                   background: orbActive
                     ? 'radial-gradient(circle, rgba(99,102,241,0.18) 0%, transparent 70%)'
@@ -770,37 +616,18 @@ function StartPage({ navigateTo }) {
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                 <div
                   className="w-52 h-52 md:w-64 md:h-64 rounded-full animate-spin"
-                  style={{
-                    opacity: orbActive ? 1 : 0.65,
-                    animationDuration: '14s',
-                    animationTimingFunction: 'linear',
-                    transition: 'opacity 0.5s',
-                  }}
+                  style={{ opacity: orbActive ? 1 : 0.65, animationDuration: '14s', animationTimingFunction: 'linear', transition: 'opacity 0.5s' }}
                 >
-                  <div
-                    className={`absolute top-0 left-1/2 -translate-x-1/2 w-36 h-36 rounded-full blur-2xl transition-all duration-500 ${orb.light1}`}
-                  ></div>
-                  <div
-                    className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-32 h-32 rounded-full blur-2xl transition-all duration-500 ${orb.light2}`}
-                  ></div>
+                  <div className={`absolute top-0 left-1/2 -translate-x-1/2 w-36 h-36 rounded-full blur-2xl transition-all duration-500 ${orb.light1}`}></div>
+                  <div className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-32 h-32 rounded-full blur-2xl transition-all duration-500 ${orb.light2}`}></div>
                 </div>
                 {/* Warstwa 2 — wolniejsza, przeciwny obrót */}
                 <div
                   className="absolute w-52 h-52 md:w-64 md:h-64 rounded-full animate-spin"
-                  style={{
-                    opacity: orbActive ? 0.9 : 0.55,
-                    animationDuration: '22s',
-                    animationTimingFunction: 'linear',
-                    animationDirection: 'reverse',
-                    transition: 'opacity 0.5s',
-                  }}
+                  style={{ opacity: orbActive ? 0.9 : 0.55, animationDuration: '22s', animationTimingFunction: 'linear', animationDirection: 'reverse', transition: 'opacity 0.5s' }}
                 >
-                  <div
-                    className={`absolute top-1/2 left-0 -translate-y-1/2 w-32 h-32 rounded-full blur-2xl transition-all duration-500 ${orb.light3}`}
-                  ></div>
-                  <div
-                    className={`absolute top-1/2 right-0 -translate-y-1/2 w-28 h-28 rounded-full blur-2xl transition-all duration-500 ${orb.light4}`}
-                  ></div>
+                  <div className={`absolute top-1/2 left-0 -translate-y-1/2 w-32 h-32 rounded-full blur-2xl transition-all duration-500 ${orb.light3}`}></div>
+                  <div className={`absolute top-1/2 right-0 -translate-y-1/2 w-28 h-28 rounded-full blur-2xl transition-all duration-500 ${orb.light4}`}></div>
                 </div>
               </div>
 
@@ -808,8 +635,7 @@ function StartPage({ navigateTo }) {
               <div
                 className="relative w-56 h-56 md:w-64 md:h-64 rounded-full overflow-hidden flex items-center justify-center text-center animate-[float_4s_ease-in-out_infinite]"
                 style={{
-                  background:
-                    'linear-gradient(135deg, rgba(255,255,255,0.30) 0%, rgba(255,255,255,0.06) 60%, rgba(255,255,255,0.12) 100%)',
+                  background: 'linear-gradient(135deg, rgba(255,255,255,0.30) 0%, rgba(255,255,255,0.06) 60%, rgba(255,255,255,0.12) 100%)',
                   backdropFilter: 'blur(32px) saturate(180%)',
                   WebkitBackdropFilter: 'blur(32px) saturate(180%)',
                   border: '1px solid rgba(255,255,255,0.35)',
@@ -817,8 +643,7 @@ function StartPage({ navigateTo }) {
                     ? '0 0 0 1px rgba(255,255,255,0.15), 0 25px 60px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.5), inset 0 -1px 0 rgba(255,255,255,0.1), inset 0 0 60px rgba(255,255,255,0.08)'
                     : '0 0 0 1px rgba(255,255,255,0.1), 0 15px 40px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.4), inset 0 -1px 0 rgba(255,255,255,0.08), inset 0 0 40px rgba(255,255,255,0.05)',
                   transform: orbActive ? 'scale(1.06)' : 'scale(1)',
-                  transition:
-                    'transform 0.7s ease-out, box-shadow 0.5s ease-out',
+                  transition: 'transform 0.7s ease-out, box-shadow 0.5s ease-out',
                 }}
               >
                 {/* Górne lustrzane odbicie */}
@@ -837,16 +662,10 @@ function StartPage({ navigateTo }) {
                     transition={{ duration: 0.3, ease: 'easeOut' }}
                     className="relative z-10 text-xs md:text-sm font-semibold text-slate-800 uppercase tracking-[0.22em] drop-shadow-sm px-8 leading-relaxed text-center"
                   >
-                    {hoveredService ? (
-                      orb.label
-                    ) : (
+                    {hoveredService ? orb.label : (
                       <>
-                        <span className="hidden md:block">
-                          Zapraszamy do zapoznania się z naszą ofertą
-                        </span>
-                        <span className="block md:hidden">
-                          Aby zapoznać się z ofertą przytrzymaj ikonę
-                        </span>
+                        <span className="hidden md:block">Zapraszamy do zapoznania się z ofertą</span>
+                        <span className="block md:hidden">Aby zapoznać się z ofertą przytrzymaj ikonę</span>
                       </>
                     )}
                   </motion.p>
@@ -860,10 +679,8 @@ function StartPage({ navigateTo }) {
             <div
               className="inline-flex items-center gap-1 px-4 py-3 rounded-full relative overflow-hidden"
               style={{
-                background:
-                  'radial-gradient(ellipse at 40% 25%, rgba(255,255,255,0.55) 0%, rgba(230,235,245,0.35) 50%, rgba(200,210,230,0.25) 100%)',
-                boxShadow:
-                  '0 0 0 1px rgba(255,255,255,0.7), 0 8px 32px rgba(100,120,180,0.18), 0 2px 8px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.9), inset 0 0 30px rgba(255,255,255,0.3)',
+                background: 'radial-gradient(ellipse at 40% 25%, rgba(255,255,255,0.55) 0%, rgba(230,235,245,0.35) 50%, rgba(200,210,230,0.25) 100%)',
+                boxShadow: '0 0 0 1px rgba(255,255,255,0.7), 0 8px 32px rgba(100,120,180,0.18), 0 2px 8px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.9), inset 0 0 30px rgba(255,255,255,0.3)',
                 backdropFilter: 'blur(20px) saturate(160%)',
                 WebkitBackdropFilter: 'blur(20px) saturate(160%)',
               }}
@@ -877,10 +694,7 @@ function StartPage({ navigateTo }) {
                 onClick={() => navigateTo('transport')}
                 onMouseEnter={() => setHoveredService('transport')}
                 onMouseLeave={() => setHoveredService(null)}
-                onTouchStart={(e) => {
-                  e.preventDefault();
-                  setHoveredService('transport');
-                }}
+                onTouchStart={(e) => { e.preventDefault(); setHoveredService('transport'); }}
                 onTouchEnd={() => setHoveredService(null)}
                 onTouchCancel={() => setHoveredService(null)}
                 className="group relative flex items-center justify-center w-14 h-14 rounded-full cursor-pointer"
@@ -888,59 +702,24 @@ function StartPage({ navigateTo }) {
               >
                 {/* Premium Glow — niebieski */}
                 <span className="absolute inset-0 rounded-full bg-blue-500/30 blur-xl opacity-0 group-hover:opacity-100 transition-all duration-500 pointer-events-none"></span>
-                <svg
-                  viewBox="0 0 36 24"
-                  width="34"
-                  height="23"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="1.6"
+                <svg viewBox="0 0 36 24" width="34" height="23" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.6"
                   className="transition-all duration-500 ease-out group-hover:translate-x-1 group-hover:-translate-y-1"
                 >
                   {/* podwozie */}
-                  <line
-                    x1="2"
-                    y1="19"
-                    x2="34"
-                    y2="19"
-                    className="stroke-slate-400 group-hover:stroke-blue-900 transition-colors duration-300"
-                  />
+                  <line x1="2" y1="19" x2="34" y2="19" className="stroke-slate-400 group-hover:stroke-blue-900 transition-colors duration-300" />
                   {/* kabina */}
-                  <path
-                    d="M2 19 L2 11 L7 6 L12 6 L12 19"
-                    className="stroke-slate-400 group-hover:stroke-blue-900 transition-colors duration-300"
-                  />
+                  <path d="M2 19 L2 11 L7 6 L12 6 L12 19" className="stroke-slate-400 group-hover:stroke-blue-900 transition-colors duration-300" />
                   {/* paka */}
-                  <rect
-                    x="12"
-                    y="8"
-                    width="22"
-                    height="11"
-                    rx="1"
-                    className="stroke-slate-400 group-hover:stroke-blue-900 transition-colors duration-300"
-                  />
+                  <rect x="12" y="8" width="22" height="11" rx="1" className="stroke-slate-400 group-hover:stroke-blue-900 transition-colors duration-300" />
                   {/* koło przednie — obraca się wokół własnej osi */}
-                  <circle
-                    cx="6.5"
-                    cy="21"
-                    r="2.2"
+                  <circle cx="6.5" cy="21" r="2.2"
                     className="stroke-slate-400 group-hover:stroke-blue-900 transition-colors duration-300 group-hover:animate-spin origin-center"
-                    style={{
-                      transformBox: 'fill-box',
-                      transformOrigin: 'center',
-                    }}
+                    style={{ transformBox: 'fill-box', transformOrigin: 'center' }}
                   />
                   {/* koło tylne */}
-                  <circle
-                    cx="27"
-                    cy="21"
-                    r="2.2"
+                  <circle cx="27" cy="21" r="2.2"
                     className="stroke-slate-400 group-hover:stroke-blue-900 transition-colors duration-300 group-hover:animate-spin origin-center"
-                    style={{
-                      transformBox: 'fill-box',
-                      transformOrigin: 'center',
-                    }}
+                    style={{ transformBox: 'fill-box', transformOrigin: 'center' }}
                   />
                 </svg>
                 <span className="absolute inset-0 rounded-full bg-white/0 group-hover:bg-white/40 transition-all duration-300 -z-10"></span>
@@ -954,10 +733,7 @@ function StartPage({ navigateTo }) {
                 onClick={() => navigateTo('hydraulics')}
                 onMouseEnter={() => setHoveredService('hydraulics')}
                 onMouseLeave={() => setHoveredService(null)}
-                onTouchStart={(e) => {
-                  e.preventDefault();
-                  setHoveredService('hydraulics');
-                }}
+                onTouchStart={(e) => { e.preventDefault(); setHoveredService('hydraulics'); }}
                 onTouchEnd={() => setHoveredService(null)}
                 onTouchCancel={() => setHoveredService(null)}
                 className="group relative flex items-center justify-center w-14 h-14 rounded-full cursor-pointer"
@@ -981,10 +757,7 @@ function StartPage({ navigateTo }) {
                 onClick={() => navigateTo('stone')}
                 onMouseEnter={() => setHoveredService('stone')}
                 onMouseLeave={() => setHoveredService(null)}
-                onTouchStart={(e) => {
-                  e.preventDefault();
-                  setHoveredService('stone');
-                }}
+                onTouchStart={(e) => { e.preventDefault(); setHoveredService('stone'); }}
                 onTouchEnd={() => setHoveredService(null)}
                 onTouchCancel={() => setHoveredService(null)}
                 className="group relative flex items-center justify-center w-14 h-14 rounded-full cursor-pointer"
@@ -993,10 +766,7 @@ function StartPage({ navigateTo }) {
                 {/* Premium Glow — teal */}
                 <span className="absolute inset-0 rounded-full bg-teal-500/30 blur-xl opacity-0 group-hover:opacity-100 transition-all duration-500 pointer-events-none"></span>
                 <div className="relative">
-                  <Mountain
-                    size={26}
-                    className="text-slate-400 group-hover:text-emerald-600 transition-colors duration-300"
-                  />
+                  <Mountain size={26} className="text-slate-400 group-hover:text-emerald-600 transition-colors duration-300" />
                   <Cloud
                     size={13}
                     className="absolute -top-2.5 -right-1.5 text-slate-300 opacity-60 group-hover:opacity-100 group-hover:text-blue-400 group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-400 ease-out"
@@ -1013,10 +783,7 @@ function StartPage({ navigateTo }) {
                 onClick={() => navigateTo('coal')}
                 onMouseEnter={() => setHoveredService('coal')}
                 onMouseLeave={() => setHoveredService(null)}
-                onTouchStart={(e) => {
-                  e.preventDefault();
-                  setHoveredService('coal');
-                }}
+                onTouchStart={(e) => { e.preventDefault(); setHoveredService('coal'); }}
                 onTouchEnd={() => setHoveredService(null)}
                 onTouchCancel={() => setHoveredService(null)}
                 className="group relative flex items-center justify-center w-14 h-14 rounded-full cursor-pointer"
@@ -1025,12 +792,7 @@ function StartPage({ navigateTo }) {
                 {/* Premium Glow — pomarańczowy żar */}
                 <span className="absolute inset-0 rounded-full bg-orange-500/0 group-hover:bg-orange-500/30 blur-xl opacity-0 group-hover:opacity-100 transition-all duration-500 pointer-events-none"></span>
                 <svg
-                  viewBox="0 0 28 26"
-                  width="28"
-                  height="26"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
+                  viewBox="0 0 28 26" width="28" height="26" fill="none" strokeLinecap="round" strokeLinejoin="round"
                   className="transition-all duration-400 ease-out group-hover:scale-110 group-hover:-translate-y-0.5 group-hover:drop-shadow-[0_0_10px_rgba(249,115,22,0.7)]"
                 >
                   {/* Bryła węgla — idle: liniowy kontur, hover: wypełnienie */}
@@ -1040,21 +802,9 @@ function StartPage({ navigateTo }) {
                     strokeWidth="1.8"
                   />
                   {/* Fasetki bryły */}
-                  <path
-                    d="M9 4 L7 10 L13 8 L15 3"
-                    className="stroke-slate-400 group-hover:stroke-slate-500 transition-colors duration-400"
-                    strokeWidth="1"
-                  />
-                  <path
-                    d="M7 10 L3 13 L6 18 L13 15 L7 10"
-                    className="stroke-slate-400 group-hover:stroke-slate-500 transition-colors duration-400"
-                    strokeWidth="1"
-                  />
-                  <path
-                    d="M21 6 L19 12 L24 16"
-                    className="stroke-slate-400 group-hover:stroke-slate-500 transition-colors duration-400"
-                    strokeWidth="1"
-                  />
+                  <path d="M9 4 L7 10 L13 8 L15 3" className="stroke-slate-400 group-hover:stroke-slate-500 transition-colors duration-400" strokeWidth="1" />
+                  <path d="M7 10 L3 13 L6 18 L13 15 L7 10" className="stroke-slate-400 group-hover:stroke-slate-500 transition-colors duration-400" strokeWidth="1" />
+                  <path d="M21 6 L19 12 L24 16" className="stroke-slate-400 group-hover:stroke-slate-500 transition-colors duration-400" strokeWidth="1" />
 
                   {/* Pęknięcia / żyłki — domyślnie niewidoczne, żarzą się na hover */}
                   <path
@@ -1075,56 +825,46 @@ function StartPage({ navigateTo }) {
                 </svg>
                 <span className="absolute inset-0 rounded-full bg-white/0 group-hover:bg-orange-50/50 transition-all duration-300 -z-10"></span>
               </button>
+
             </div>
           </div>
 
           <div className="flex justify-center w-full px-4 md:px-0 md:block">
-            <motion.button
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6, ease: 'easeOut' }}
-              onClick={() => navigateTo('kalkulator')}
-              className="relative inline-flex items-center justify-center gap-3 w-[90%] sm:w-auto px-9 min-h-[56px] rounded-full font-bold text-white/95 overflow-hidden group transition-all duration-500 ease-in-out md:hover:scale-105 active:scale-95 active:brightness-110"
+          <motion.button
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6, ease: 'easeOut' }}
+            onClick={() => navigateTo('kalkulator')}
+            className="relative inline-flex items-center justify-center gap-3 w-[90%] sm:w-auto px-9 min-h-[56px] rounded-full font-bold text-white/95 overflow-hidden group transition-all duration-500 ease-in-out md:hover:scale-105 active:scale-95 active:brightness-110"
+            style={{
+              background: 'radial-gradient(ellipse at 40% 30%, rgba(40,60,140,0.8) 0%, rgba(15,23,62,0.97) 55%, rgba(5,8,25,1) 100%)',
+              boxShadow: '0 0 0 1px rgba(99,130,255,0.3), 0 8px 32px rgba(0,0,0,0.45), 0 2px 8px rgba(0,0,0,0.3), inset 0 1px 0 rgba(150,180,255,0.25), inset 0 0 40px rgba(59,100,246,0.2)',
+              backdropFilter: 'blur(8px)',
+              WebkitBackdropFilter: 'blur(8px)',
+              willChange: 'transform',
+              transform: 'translateZ(0)',
+            }}
+          >
+            {/* Wewnętrzna niebieska poświata wzmacniająca się na hover */}
+            <span
+              className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
               style={{
-                background:
-                  'radial-gradient(ellipse at 40% 30%, rgba(40,60,140,0.8) 0%, rgba(15,23,62,0.97) 55%, rgba(5,8,25,1) 100%)',
-                boxShadow:
-                  '0 0 0 1px rgba(99,130,255,0.3), 0 8px 32px rgba(0,0,0,0.45), 0 2px 8px rgba(0,0,0,0.3), inset 0 1px 0 rgba(150,180,255,0.25), inset 0 0 40px rgba(59,100,246,0.2)',
-                backdropFilter: 'blur(8px)',
-                WebkitBackdropFilter: 'blur(8px)',
-                willChange: 'transform',
-                transform: 'translateZ(0)',
+                background: 'radial-gradient(ellipse at 50% 70%, rgba(59,130,246,0.45) 0%, transparent 65%)',
+                boxShadow: 'inset 0 0 50px rgba(59,130,246,0.25)',
               }}
-            >
-              {/* Wewnętrzna niebieska poświata wzmacniająca się na hover */}
-              <span
-                className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                style={{
-                  background:
-                    'radial-gradient(ellipse at 50% 70%, rgba(59,130,246,0.45) 0%, transparent 65%)',
-                  boxShadow: 'inset 0 0 50px rgba(59,130,246,0.25)',
-                }}
-              ></span>
-              {/* Hover — zewnętrzna aureola */}
-              <span
-                className="absolute inset-[-2px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                style={{
-                  boxShadow:
-                    '0 0 20px rgba(59,130,246,0.4), 0 0 45px rgba(59,130,246,0.18)',
-                }}
-              ></span>
-              {/* Spekularne odbicie 3D — górny połysk */}
-              <span className="absolute top-1.5 left-8 right-8 h-2.5 rounded-full bg-white/25 blur-sm pointer-events-none"></span>
-              <span className="absolute top-2 left-10 right-10 h-1 rounded-full bg-white/40 blur-[2px] pointer-events-none"></span>
-              {/* Treść */}
-              <Calculator
-                size={20}
-                className="relative z-10 text-blue-300 group-hover:text-white transition-colors duration-300"
-              />
-              <span className="relative z-10 tracking-wide">
-                Otwórz kalkulator zamówienia
-              </span>
-            </motion.button>
+            ></span>
+            {/* Hover — zewnętrzna aureola */}
+            <span
+              className="absolute inset-[-2px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+              style={{ boxShadow: '0 0 20px rgba(59,130,246,0.4), 0 0 45px rgba(59,130,246,0.18)' }}
+            ></span>
+            {/* Spekularne odbicie 3D — górny połysk */}
+            <span className="absolute top-1.5 left-8 right-8 h-2.5 rounded-full bg-white/25 blur-sm pointer-events-none"></span>
+            <span className="absolute top-2 left-10 right-10 h-1 rounded-full bg-white/40 blur-[2px] pointer-events-none"></span>
+            {/* Treść */}
+            <Calculator size={20} className="relative z-10 text-blue-300 group-hover:text-white transition-colors duration-300" />
+            <span className="relative z-10 tracking-wide">Otwórz kalkulator zamówienia</span>
+          </motion.button>
           </div>
         </div>
       </header>
@@ -1216,9 +956,7 @@ function TransportPage({ navigateTo }) {
           {/* Mała odznaka nad tytułem */}
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 text-blue-400 font-medium mb-6 border border-blue-500/20">
             <Navigation size={18} className="animate-pulse" />
-            <span className="text-sm tracking-wide uppercase">
-              Własna Flota Pojazdów
-            </span>
+            <span className="text-sm tracking-wide uppercase">Własna Flota Pojazdów</span>
           </div>
 
           {/* Główne hasło z błękitnym gradientem */}
@@ -1230,9 +968,7 @@ function TransportPage({ navigateTo }) {
           </h1>
 
           <p className="text-slate-400 text-lg md:text-xl max-w-2xl mb-10">
-            Dysponujemy nowoczesną flotą pojazdów ciężarowych. Gwarantujemy
-            sprawną i bezpieczną dostawę kruszyw oraz węgla, dopasowując się do
-            Twoich potrzeb.
+            Dysponujemy nowoczesną flotą pojazdów ciężarowych. Gwarantujemy sprawną i bezpieczną dostawę kruszyw oraz węgla, dopasowując się do Twoich potrzeb.
           </p>
 
           {/* Efektowne kafelki z szybkimi statystykami */}
@@ -1241,27 +977,21 @@ function TransportPage({ navigateTo }) {
             <div className="bg-slate-800/60 backdrop-blur-md p-5 rounded-2xl border border-slate-700/50 flex flex-col items-center md:items-start text-center md:text-left hover:border-blue-500/50 transition-colors duration-300">
               <Weight className="text-blue-400 mb-3" size={32} />
               <p className="text-white font-bold text-xl">Dowolny Tonaż</p>
-              <p className="text-slate-400 text-sm mt-1">
-                Dopasowujemy auto do wielkości Twojego zamówienia
-              </p>
+              <p className="text-slate-400 text-sm mt-1">Dopasowujemy auto do wielkości Twojego zamówienia</p>
             </div>
 
             {/* Kafelek 2 */}
             <div className="bg-slate-800/60 backdrop-blur-md p-5 rounded-2xl border border-slate-700/50 flex flex-col items-center md:items-start text-center md:text-left hover:border-blue-500/50 transition-colors duration-300">
               <Map className="text-cyan-400 mb-3" size={32} />
               <p className="text-white font-bold text-xl">Lokalnie i Krajowo</p>
-              <p className="text-slate-400 text-sm mt-1">
-                Obsługujemy inwestycje w regionie oraz trasy dalekobieżne
-              </p>
+              <p className="text-slate-400 text-sm mt-1">Obsługujemy inwestycje w regionie oraz trasy dalekobieżne</p>
             </div>
 
             {/* Kafelek 3 */}
             <div className="bg-slate-800/60 backdrop-blur-md p-5 rounded-2xl border border-slate-700/50 flex flex-col items-center md:items-start text-center md:text-left hover:border-blue-500/50 transition-colors duration-300">
               <Clock className="text-indigo-400 mb-3" size={32} />
               <p className="text-white font-bold text-xl">Gwarancja Terminu</p>
-              <p className="text-slate-400 text-sm mt-1">
-                Koniec z przestojami na budowie. Jesteśmy punktualni
-              </p>
+              <p className="text-slate-400 text-sm mt-1">Koniec z przestojami na budowie. Jesteśmy punktualni</p>
             </div>
           </div>
         </div>
@@ -1454,16 +1184,16 @@ function HydraulicsPage({ navigateTo }) {
       {/* === KROK 2: NOWY CIEMNY BANER — INDUSTRIAL POWER         === */}
       {/* ============================================================ */}
       <div className="relative overflow-hidden bg-slate-900 rounded-3xl p-8 md:p-12 shadow-2xl border border-slate-800 mb-12 animate-scaleIn">
+
         {/* Efekt "przemysłowej" poświaty w tle (miodowo-żółty) */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full md:w-3/4 h-3/4 bg-amber-600/20 blur-[100px] rounded-full pointer-events-none animate-pulse"></div>
 
         <div className="relative z-10 flex flex-col items-center text-center">
+
           {/* Mała odznaka nad tytułem */}
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500/10 text-amber-400 font-medium mb-6 border border-amber-500/20">
             <Settings size={18} className="animate-spin-slow" />
-            <span className="text-sm tracking-wide uppercase">
-              Serwis Hydrauliki Siłowej
-            </span>
+            <span className="text-sm tracking-wide uppercase">Serwis Hydrauliki Siłowej</span>
           </div>
 
           {/* Główne hasło z industrialnym gradientem */}
@@ -1475,36 +1205,30 @@ function HydraulicsPage({ navigateTo }) {
           </h1>
 
           <p className="text-slate-400 text-lg md:text-xl max-w-2xl mb-10">
-            Zakuwamy przewody hydrauliczne dla rolnictwa, przemysłu i
-            budownictwa. Pracujemy na topowych maszynach Finn Power, gwarantując
-            niezawodność w każdych warunkach.
+            Zakuwamy przewody hydrauliczne dla rolnictwa, przemysłu i budownictwa. Pracujemy na topowych maszynach Finn Power, gwarantując niezawodność w każdych warunkach.
           </p>
 
           {/* Kafelki statystyk */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-4xl">
+
             <div className="bg-slate-800/60 backdrop-blur-md p-5 rounded-2xl border border-slate-700/50 flex flex-col items-center md:items-start text-center md:text-left hover:border-amber-500/50 transition-colors duration-300">
               <Gauge className="text-amber-400 mb-3" size={32} />
               <p className="text-white font-bold text-xl">Do 400 bar</p>
-              <p className="text-slate-400 text-sm mt-1">
-                Wytrzymałość na ekstremalne ciśnienie
-              </p>
+              <p className="text-slate-400 text-sm mt-1">Wytrzymałość na ekstremalne ciśnienie</p>
             </div>
 
             <div className="bg-slate-800/60 backdrop-blur-md p-5 rounded-2xl border border-slate-700/50 flex flex-col items-center md:items-start text-center md:text-left hover:border-amber-500/50 transition-colors duration-300">
               <Settings className="text-yellow-400 mb-3" size={32} />
               <p className="text-white font-bold text-xl">Maszyny Finn Power</p>
-              <p className="text-slate-400 text-sm mt-1">
-                Sprzęt spełniający najwyższe normy jakościowe
-              </p>
+              <p className="text-slate-400 text-sm mt-1">Sprzęt spełniający najwyższe normy jakościowe</p>
             </div>
 
             <div className="bg-slate-800/60 backdrop-blur-md p-5 rounded-2xl border border-slate-700/50 flex flex-col items-center md:items-start text-center md:text-left hover:border-amber-500/50 transition-colors duration-300">
               <Wrench className="text-amber-500 mb-3" size={32} />
               <p className="text-white font-bold text-xl">Szybka Realizacja</p>
-              <p className="text-slate-400 text-sm mt-1">
-                Zakuwanie na poczekaniu, minimalizujemy przestoje
-              </p>
+              <p className="text-slate-400 text-sm mt-1">Zakuwanie na poczekaniu, minimalizujemy przestoje</p>
             </div>
+
           </div>
         </div>
       </div>
@@ -1523,8 +1247,7 @@ function HydraulicsPage({ navigateTo }) {
             Precyzja w Każdym Połączeniu
           </h2>
           <p className="text-slate-600 text-lg max-w-3xl mx-auto">
-            Kompleksowe usługi hydrauliczne z gwarancją jakości i błyskawiczną
-            reakcją
+            Kompleksowe usługi hydrauliczne z gwarancją jakości i błyskawiczną reakcją
           </p>
         </div>
 
@@ -1705,16 +1428,16 @@ function StonePage({ navigateTo }) {
       </button>
 
       <div className="relative overflow-hidden bg-slate-900 rounded-3xl p-8 md:p-12 shadow-2xl border border-slate-800 mb-12 animate-scaleIn">
+
         {/* Efekt "naturalnej" poświaty w tle (szmaragdowo-zielony) */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full md:w-3/4 h-3/4 bg-emerald-600/20 blur-[100px] rounded-full pointer-events-none animate-pulse"></div>
 
         <div className="relative z-10 flex flex-col items-center text-center">
+
           {/* Mała odznaka nad tytułem */}
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 text-emerald-400 font-medium mb-6 border border-emerald-500/20">
             <Mountain size={18} className="animate-pulse" />
-            <span className="text-sm tracking-wide uppercase">
-              Kruszywa Ozdobne i Drogowe
-            </span>
+            <span className="text-sm tracking-wide uppercase">Kruszywa Ozdobne i Drogowe</span>
           </div>
 
           {/* Główne hasło ze szmaragdowym gradientem */}
@@ -1726,37 +1449,30 @@ function StonePage({ navigateTo }) {
           </h1>
 
           <p className="text-slate-400 text-lg md:text-xl max-w-2xl mb-10">
-            Odkryj szeroki wybór naturalnych kruszyw. Od śnieżnobiałej Marianny
-            po elegancki Bazalt – dostarczamy kamień, który całkowicie odmieni
-            Twoją posesję. Oprócz asortymentu w katalogu posiadamy również
-            piasek 0/2.
+            Odkryj szeroki wybór naturalnych kruszyw. Od śnieżnobiałej Marianny po elegancki Bazalt – dostarczamy kamień, który całkowicie odmieni Twoją posesję. Oprócz asortymentu w katalogu posiadamy również piasek 0/2.
           </p>
 
           {/* Kafelki statystyk */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-4xl">
+
             <div className="bg-slate-800/60 backdrop-blur-md p-5 rounded-2xl border border-slate-700/50 flex flex-col items-center md:items-start text-center md:text-left hover:border-emerald-500/50 transition-colors duration-300">
               <Gem className="text-emerald-400 mb-3" size={32} />
               <p className="text-white font-bold text-xl">Szeroki Wybór</p>
-              <p className="text-slate-400 text-sm mt-1">
-                Bogata paleta barw i frakcji dopasowana do każdego projektu
-              </p>
+              <p className="text-slate-400 text-sm mt-1">Bogata paleta barw i frakcji dopasowana do każdego projektu</p>
             </div>
 
             <div className="bg-slate-800/60 backdrop-blur-md p-5 rounded-2xl border border-slate-700/50 flex flex-col items-center md:items-start text-center md:text-left hover:border-emerald-500/50 transition-colors duration-300">
               <Weight className="text-teal-400 mb-3" size={32} />
               <p className="text-white font-bold text-xl">Dowolna Ilość</p>
-              <p className="text-slate-400 text-sm mt-1">
-                Sprzedaż detaliczna i hurtowa z wygodną dostawą pod drzwi
-              </p>
+              <p className="text-slate-400 text-sm mt-1">Sprzedaż detaliczna i hurtowa z wygodną dostawą pod drzwi</p>
             </div>
 
             <div className="bg-slate-800/60 backdrop-blur-md p-5 rounded-2xl border border-slate-700/50 flex flex-col items-center md:items-start text-center md:text-left hover:border-emerald-500/50 transition-colors duration-300">
               <ShieldCheck className="text-green-400 mb-3" size={32} />
               <p className="text-white font-bold text-xl">Najwyższa Jakość</p>
-              <p className="text-slate-400 text-sm mt-1">
-                Czyste, starannie wyselekcjonowane i płukane kruszywa
-              </p>
+              <p className="text-slate-400 text-sm mt-1">Czyste, starannie wyselekcjonowane i płukane kruszywa</p>
             </div>
+
           </div>
         </div>
       </div>
@@ -2138,7 +1854,7 @@ function CoalPage({ navigateTo }) {
 // ============================================================
 // === STRONA KALKULATORA Z FRAMER-MOTION                   ===
 // ============================================================
-function CalculatorPage({ navigateTo }) {
+function CalculatorPage({ navigateTo, setLegalModal }) {
   const [calcRef, calcInView] = useScrollAnimation();
 
   return (
@@ -2195,7 +1911,7 @@ function ContactPage({ navigateTo }) {
     setIsSubmitting(true);
     try {
       const formData = new FormData(e.target);
-      formData.append('access_key', 'bc9c7b48-47c4-45a9-a0e7-8321221ad9ad');
+      formData.append('access_key', "bc9c7b48-47c4-45a9-a0e7-8321221ad9ad");
       formData.append('subject', 'Nowa wiadomość kontaktowa – Granteco');
       const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
@@ -2237,24 +1953,18 @@ function ContactPage({ navigateTo }) {
       </div>
 
       <div className="grid md:grid-cols-2 gap-8">
+
         {/* --- LEWA KOLUMNA: KAFELKI KONTAKTOWE --- */}
         <div className="space-y-4 animate-fadeInLeft">
+
           {/* Kafelek: Telefon */}
           <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-md hover:border-blue-900 transition-all duration-300 flex items-start gap-4 group cursor-default">
             <div className="bg-slate-50 p-3 rounded-xl group-hover:bg-blue-900 transition-colors duration-300 shrink-0">
-              <Phone
-                size={22}
-                className="text-blue-900 group-hover:text-white transition-colors"
-              />
+              <Phone size={22} className="text-blue-900 group-hover:text-white transition-colors" />
             </div>
             <div>
-              <h3 className="text-slate-500 text-sm font-medium mb-1">
-                Telefon
-              </h3>
-              <a
-                href="tel:662333188"
-                className="text-slate-800 font-bold text-lg hover:text-blue-900 transition-colors"
-              >
+              <h3 className="text-slate-500 text-sm font-medium mb-1">Telefon</h3>
+              <a href="tel:662333188" className="text-slate-800 font-bold text-lg hover:text-blue-900 transition-colors">
                 +48 662 333 188
               </a>
             </div>
@@ -2263,17 +1973,11 @@ function ContactPage({ navigateTo }) {
           {/* Kafelek: Email */}
           <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-md hover:border-blue-900 transition-all duration-300 flex items-start gap-4 group cursor-default">
             <div className="bg-slate-50 p-3 rounded-xl group-hover:bg-blue-900 transition-colors duration-300 shrink-0">
-              <Mail
-                size={22}
-                className="text-blue-900 group-hover:text-white transition-colors"
-              />
+              <Mail size={22} className="text-blue-900 group-hover:text-white transition-colors" />
             </div>
             <div>
               <h3 className="text-slate-500 text-sm font-medium mb-1">Email</h3>
-              <a
-                href="mailto:biuro@granteco.pl"
-                className="text-slate-800 font-bold text-lg hover:text-blue-900 transition-colors"
-              >
+              <a href="mailto:biuro@granteco.pl" className="text-slate-800 font-bold text-lg hover:text-blue-900 transition-colors">
                 biuro@granteco.pl
               </a>
             </div>
@@ -2282,17 +1986,12 @@ function ContactPage({ navigateTo }) {
           {/* Kafelek: Adres */}
           <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-md hover:border-blue-900 transition-all duration-300 flex items-start gap-4 group cursor-default">
             <div className="bg-slate-50 p-3 rounded-xl group-hover:bg-blue-900 transition-colors duration-300 shrink-0">
-              <MapPin
-                size={22}
-                className="text-blue-900 group-hover:text-white transition-colors"
-              />
+              <MapPin size={22} className="text-blue-900 group-hover:text-white transition-colors" />
             </div>
             <div>
               <h3 className="text-slate-500 text-sm font-medium mb-1">Adres</h3>
               <p className="text-slate-800 font-bold text-lg leading-snug">
-                ul. Poznańska 28
-                <br />
-                62-090 Mrowino
+                ul. Poznańska 28<br />62-090 Mrowino
               </p>
             </div>
           </div>
@@ -2327,6 +2026,7 @@ function ContactPage({ navigateTo }) {
               </div>
             </div>
           </div>
+
         </div>
 
         {/* ---- PRAWA KOLUMNA: FORMULARZ ---- */}
@@ -2334,9 +2034,7 @@ function ContactPage({ navigateTo }) {
           <h2 className="text-2xl font-bold text-slate-800 mb-2">
             Wyślij wiadomość
           </h2>
-          <p className="text-slate-500 text-sm mb-6">
-            Odpowiemy najszybciej jak to możliwe
-          </p>
+          <p className="text-slate-500 text-sm mb-6">Odpowiemy najszybciej jak to możliwe</p>
           <form className="space-y-4" onSubmit={handleContactSubmit}>
             <div>
               <label className="block text-sm font-semibold text-slate-600 mb-1.5">
@@ -2390,31 +2088,18 @@ function ContactPage({ navigateTo }) {
               disabled={isSubmitting}
               className="relative w-full inline-flex justify-center items-center gap-3 min-h-[56px] px-8 rounded-xl font-bold text-white/95 overflow-hidden group transition-all duration-500 ease-in-out md:hover:scale-[1.02] active:scale-95 active:brightness-110 mt-4 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100"
               style={{
-                background:
-                  'radial-gradient(ellipse at 40% 30%, rgba(40,60,140,0.8) 0%, rgba(15,23,62,0.97) 55%, rgba(5,8,25,1) 100%)',
-                boxShadow:
-                  '0 0 0 1px rgba(99,130,255,0.3), 0 8px 32px rgba(0,0,0,0.45), 0 2px 8px rgba(0,0,0,0.3), inset 0 1px 0 rgba(150,180,255,0.25), inset 0 0 40px rgba(59,100,246,0.2)',
+                background: 'radial-gradient(ellipse at 40% 30%, rgba(40,60,140,0.8) 0%, rgba(15,23,62,0.97) 55%, rgba(5,8,25,1) 100%)',
+                boxShadow: '0 0 0 1px rgba(99,130,255,0.3), 0 8px 32px rgba(0,0,0,0.45), 0 2px 8px rgba(0,0,0,0.3), inset 0 1px 0 rgba(150,180,255,0.25), inset 0 0 40px rgba(59,100,246,0.2)',
                 backdropFilter: 'blur(8px)',
                 WebkitBackdropFilter: 'blur(8px)',
                 willChange: 'transform',
                 transform: 'translateZ(0)',
               }}
             >
-              <span
-                className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                style={{
-                  background:
-                    'radial-gradient(ellipse at 50% 70%, rgba(59,130,246,0.45) 0%, transparent 65%)',
-                  boxShadow: 'inset 0 0 50px rgba(59,130,246,0.25)',
-                }}
-              ></span>
-              <span
-                className="absolute inset-[-2px] rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                style={{
-                  boxShadow:
-                    '0 0 20px rgba(59,130,246,0.4), 0 0 45px rgba(59,130,246,0.18)',
-                }}
-              ></span>
+              <span className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                style={{ background: 'radial-gradient(ellipse at 50% 70%, rgba(59,130,246,0.45) 0%, transparent 65%)', boxShadow: 'inset 0 0 50px rgba(59,130,246,0.25)' }}></span>
+              <span className="absolute inset-[-2px] rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                style={{ boxShadow: '0 0 20px rgba(59,130,246,0.4), 0 0 45px rgba(59,130,246,0.18)' }}></span>
               <span className="absolute top-1.5 left-8 right-8 h-2 rounded-full bg-white/20 blur-sm pointer-events-none"></span>
               {isSubmitting ? (
                 <>
@@ -2423,18 +2108,14 @@ function ContactPage({ navigateTo }) {
                 </>
               ) : (
                 <>
-                  <Mail
-                    size={20}
-                    className="relative z-10 text-blue-300 group-hover:text-white transition-colors duration-300"
-                  />
-                  <span className="relative z-10 tracking-wide">
-                    Wyślij wiadomość
-                  </span>
+                  <Mail size={20} className="relative z-10 text-blue-300 group-hover:text-white transition-colors duration-300" />
+                  <span className="relative z-10 tracking-wide">Wyślij wiadomość</span>
                 </>
               )}
             </button>
           </form>
         </div>
+
       </div>
     </div>
   );
@@ -2454,7 +2135,7 @@ const MATERIALS = [
   },
   {
     id: 2,
-    name: 'Otoczak "Mleczny" 16/32',
+    name: 'Otoczak "Ice" 16/32',
     density: 1.5,
     price: 500,
     margin: 'high',
@@ -2713,7 +2394,7 @@ function CalculatorComponent() {
       ([entry]) => {
         const focused = entry.isIntersecting && entry.intersectionRatio > 0.5;
         setMobileInFocus(focused);
-        if (focused) setShimmerKey((k) => k + 1);
+        if (focused) setShimmerKey(k => k + 1);
       },
       { threshold: 0.5, rootMargin: '-10% 0px -10% 0px' }
     );
@@ -2740,21 +2421,15 @@ function CalculatorComponent() {
     setIsSubmitting(true);
     try {
       const formData = new FormData(e.target);
-      formData.append('access_key', 'bc9c7b48-47c4-45a9-a0e7-8321221ad9ad');
+      formData.append('access_key', "bc9c7b48-47c4-45a9-a0e7-8321221ad9ad");
       formData.append('subject', 'Nowe zamówienie GRANTECO – ' + selected.name);
       // Dane kalkulatora
       formData.append('Material', selected.name);
       formData.append('Waga_tony', weight + ' t');
       formData.append('Koszt_materialu', matCost + ' zł');
-      formData.append(
-        'Koszt_transportu',
-        transCost === 0 ? 'GRATIS' : transCost + ' zł'
-      );
+      formData.append('Koszt_transportu', transCost === 0 ? 'GRATIS' : transCost + ' zł');
       if (packaging === 'bigbag') {
-        formData.append(
-          'Pakowanie_BIG_BAG',
-          bigBagQuantity + ' worki = ' + bigBagCost + ' zł'
-        );
+        formData.append('Pakowanie_BIG_BAG', bigBagQuantity + ' worki = ' + bigBagCost + ' zł');
       }
       formData.append('RAZEM_BRUTTO', totalCost + ' zł');
       // Debug — usuń po weryfikacji
@@ -2765,22 +2440,14 @@ function CalculatorComponent() {
       });
       const data = await response.json();
       if (data.success) {
-        alert(
-          '✅ Zamówienie zostało przyjęte! Skontaktujemy się z Tobą wkrótce w celu potwierdzenia dostawy. Dziękujemy!'
-        );
+        alert('✅ Zamówienie zostało przyjęte! Skontaktujemy się z Tobą wkrótce w celu potwierdzenia dostawy. Dziękujemy!');
         e.target.reset();
         setIsOrderModalOpen(false);
       } else {
-        alert(
-          '❌ Wystąpił błąd: ' +
-            (data.message ||
-              'Nieznany błąd. Spróbuj ponownie lub zadzwoń: 662 333 188.')
-        );
+        alert('❌ Wystąpił błąd: ' + (data.message || 'Nieznany błąd. Spróbuj ponownie lub zadzwoń: 662 333 188.'));
       }
     } catch (err) {
-      alert(
-        '❌ Błąd połączenia. Sprawdź internet lub zadzwoń do nas: 662 333 188.'
-      );
+      alert('❌ Błąd połączenia. Sprawdź internet lub zadzwoń do nas: 662 333 188.');
     } finally {
       setIsSubmitting(false);
     }
@@ -2912,905 +2579,636 @@ function CalculatorComponent() {
 
   return (
     <>
-      <Tilt
-        tiltEnable={!isTouch}
-        tiltMaxAngleX={8}
-        tiltMaxAngleY={8}
-        perspective={1000}
-        scale={1.02}
-        transitionSpeed={2000}
-        glareEnable={!isTouch}
-        glareMaxOpacity={0.15}
-        glareColor="#ffffff"
-        glarePosition="all"
-        glareBorderRadius="24px"
+    <Tilt
+      tiltEnable={!isTouch}
+      tiltMaxAngleX={8}
+      tiltMaxAngleY={8}
+      perspective={1000}
+      scale={1.02}
+      transitionSpeed={2000}
+      glareEnable={!isTouch}
+      glareMaxOpacity={0.15}
+      glareColor="#ffffff"
+      glarePosition="all"
+      glareBorderRadius="24px"
+    >
+      {/* ── GŁÓWNY KONTENER — ciemny grafit ── */}
+      <div
+        ref={cardRef}
+        key={shimmerKey}
+        className={`bg-slate-900 p-4 md:p-8 rounded-3xl border border-slate-700/60 shadow-2xl shadow-slate-950/50 transition-all duration-500 mobile-focus-card shimmer-card${mobileInFocus ? ' in-focus' : ''}`}
       >
-        {/* ── GŁÓWNY KONTENER — ciemny grafit ── */}
-        <div
-          ref={cardRef}
-          key={shimmerKey}
-          className={`bg-slate-900 p-4 md:p-8 rounded-3xl border border-slate-700/60 shadow-2xl shadow-slate-950/50 transition-all duration-500 mobile-focus-card shimmer-card${
-            mobileInFocus ? ' in-focus' : ''
-          }`}
-        >
-          {/* ── NAGŁÓWEK ── */}
-          <div className="flex items-center gap-3 mb-8 pb-6 border-b border-slate-700/50">
-            <div className="bg-amber-500/10 p-2.5 rounded-xl border border-amber-500/20">
-              <Calculator size={22} className="text-amber-400" />
-            </div>
+
+        {/* ── NAGŁÓWEK ── */}
+        <div className="flex items-center gap-3 mb-8 pb-6 border-b border-slate-700/50">
+          <div className="bg-amber-500/10 p-2.5 rounded-xl border border-amber-500/20">
+            <Calculator size={22} className="text-amber-400" />
+          </div>
+          <div>
+            <p className="text-xs font-bold uppercase tracking-widest text-slate-400">GRANTECO</p>
+            <h2 className="text-white font-black text-lg leading-tight">Kalkulator Zamówienia</h2>
+          </div>
+          <div className="ml-auto text-xs text-slate-600 font-mono bg-slate-800 px-3 py-1 rounded-full border border-slate-700">
+            v2.0
+          </div>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-8 items-start">
+
+          {/* ════════════════════════════════
+              LEWA KOLUMNA — DANE WEJŚCIOWE
+          ════════════════════════════════ */}
+          <div className="space-y-5">
+
+            {/* Wybór materiału */}
             <div>
-              <p className="text-xs font-bold uppercase tracking-widest text-slate-400">
-                GRANTECO
-              </p>
-              <h2 className="text-white font-black text-lg leading-tight">
-                Kalkulator Zamówienia
-              </h2>
+              <label className="text-xs font-bold text-slate-300 mb-2 block uppercase tracking-widest flex items-center gap-2">
+                <Circle size={10} className="text-amber-400 fill-amber-400" />
+                Wybierz materiał
+              </label>
+              <div className="relative">
+                <select
+                  className="w-full bg-slate-800 border border-slate-700 text-white font-semibold p-3 md:p-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-900/50 focus:border-blue-700 transition-all appearance-none cursor-pointer hover:border-slate-600"
+                  onChange={(e) =>
+                    handleChange(() =>
+                      setSelected(MATERIALS.find((m) => m.id == e.target.value))
+                    )
+                  }
+                >
+                  {MATERIALS.map((m) => (
+                    <option key={m.id} value={m.id} className="bg-slate-800">
+                      {m.name}
+                    </option>
+                  ))}
+                </select>
+                <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                  <ChevronDown size={18} />
+                </div>
+              </div>
             </div>
-            <div className="ml-auto text-xs text-slate-600 font-mono bg-slate-800 px-3 py-1 rounded-full border border-slate-700">
-              v2.0
+
+            {/* Powierzchnia + Grubość */}
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="text-xs font-bold text-slate-300 mb-2 block uppercase tracking-widest flex items-center gap-1">
+                  <Zap size={12} className="text-amber-400" />
+                  Powierzchnia
+                </label>
+                <input
+                  type="number"
+                  value={area}
+                  onChange={(e) => handleChange(() => setArea(e.target.value))}
+                  className="w-full bg-slate-800 border border-slate-700 text-white font-bold p-3 md:p-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-900/50 focus:border-blue-700 text-center transition-all hover:border-slate-600"
+                />
+                <p className="text-xs text-slate-400 mt-1 text-center font-mono">m²</p>
+              </div>
+              <div>
+                <label className="text-xs font-bold text-slate-300 mb-2 block uppercase tracking-widest flex items-center gap-1">
+                  <Zap size={12} className="text-amber-400" />
+                  Grubość
+                </label>
+                <input
+                  type="number"
+                  value={depth}
+                  onChange={(e) => handleChange(() => setDepth(e.target.value))}
+                  className="w-full bg-slate-800 border border-slate-700 text-white font-bold p-3 md:p-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-900/50 focus:border-blue-700 text-center transition-all hover:border-slate-600"
+                />
+                <p className="text-xs text-slate-400 mt-1 text-center font-mono">cm</p>
+              </div>
+            </div>
+
+            {/* Sposob pakowania */}
+            <div className="mt-1">
+              <label className="block text-sm font-medium text-slate-300 mb-2">Sposób pakowania i rozładunku</label>
+              <div className="grid grid-cols-2 gap-3">
+                <button
+                  type="button"
+                  onClick={() => setPackaging('luzem')}
+                  className={`p-3 rounded-xl border text-sm font-medium transition-all flex flex-col items-center justify-center gap-1 ${packaging === 'luzem' ? 'bg-blue-900/40 border-blue-500 text-white' : 'bg-slate-800/50 border-slate-700 text-slate-400 hover:border-slate-500'}`}
+                >
+                  <span className="font-bold">Luzem (Wywrotka)</span>
+                  <span className="text-xs opacity-70">Brak dopłat</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setPackaging('bigbag')}
+                  className={`p-3 rounded-xl border text-sm font-medium transition-all flex flex-col items-center justify-center gap-1 ${packaging === 'bigbag' ? 'bg-amber-900/40 border-amber-500 text-white' : 'bg-slate-800/50 border-slate-700 text-slate-400 hover:border-slate-500'}`}
+                >
+                  <span className="font-bold">Worki BIG-BAG (HDS)</span>
+                  <span className="text-xs opacity-70">+120 zł / tonę</span>
+                </button>
+              </div>
+              {packaging === 'bigbag' && (
+                <div className="mt-3">
+                  <p className="text-[11px] text-amber-400/80 leading-tight mb-2">
+                    * Koszt 120 zł obejmuje: 70 zł usługa rozładunku HDS + 50 zł kaucja zwrotna za nienaruszony worek.
+                  </p>
+                  {weight > 2 && (
+                    <div className="p-3 bg-red-900/30 border border-red-500/50 rounded-lg flex items-start gap-2 text-red-400 text-sm">
+                      <AlertCircle size={18} className="shrink-0 mt-0.5" />
+                      <p>Przekroczono maksymalną ilość realizowaną w workach BIG-BAG w ramach jednego transportu (max 2 tony).</p>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Adres dostawy */}
+            <div className="address-autocomplete bg-slate-800/60 border border-slate-700 p-4 rounded-2xl relative">
+              <label className="text-xs font-bold text-slate-300 mb-2 block uppercase tracking-widest flex items-center gap-2">
+                <MapPin size={12} className="text-amber-400" />
+                Adres dostawy
+              </label>
+              <div className="relative">
+                <input
+                  type="text"
+                  value={address}
+                  onChange={handleAddressChange}
+                  placeholder="Wpisz dokładny adres (ulica, numer, miejscowość)"
+                  className="w-full bg-slate-800 border border-slate-700 text-white pl-10 pr-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-900/50 focus:border-blue-700 transition-all text-sm placeholder:text-slate-600"
+                />
+                <div className="absolute left-3 top-1/2 -translate-y-1/2 text-amber-400">
+                  {isLoadingSuggestions ? (
+                    <div className="w-4 h-4 border-2 border-amber-400 border-t-transparent rounded-full animate-spin"></div>
+                  ) : (
+                    <MapPin size={16} />
+                  )}
+                </div>
+              </div>
+              {showSuggestions && addressSuggestions.length > 0 && (
+                <div className="absolute left-4 right-4 mt-2 bg-slate-800 rounded-xl shadow-2xl border border-slate-700 z-50 max-h-64 overflow-y-auto">
+                  {addressSuggestions.map((s, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => handleSelectAddress(s)}
+                      className="w-full px-4 py-3 text-left hover:bg-slate-700 transition-colors border-b border-slate-700/50 last:border-0 flex items-start gap-3"
+                    >
+                      <MapPin size={14} className="text-amber-400 mt-1 flex-shrink-0" />
+                      <span className="text-sm text-slate-300">{s.display_name}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+              {addressError && (
+                <div className="mt-3 p-3 bg-orange-500/10 border-l-4 border-orange-500 rounded-lg flex items-start gap-2">
+                  <AlertCircle size={16} className="text-orange-400 mt-0.5 flex-shrink-0" />
+                  <p className="text-orange-300 text-xs font-medium">{addressError}</p>
+                </div>
+              )}
+              <p className="text-xs text-slate-400 mt-2">
+                💡 Zacznij pisać adres — odległość zostanie obliczona automatycznie od {COMPANY_LOCATION.name}
+              </p>
+            </div>
+
+            {/* Suwak odległości */}
+            <div className={`p-4 md:p-5 rounded-2xl bg-slate-800/60 border border-slate-700 transition-all duration-500`}>
+              <div className="flex justify-between items-center mb-4">
+                <div className="flex items-center gap-2">
+                  <Truck size={18} className={transport.color} />
+                  <span className="font-bold text-xs uppercase tracking-widest text-slate-300">
+                    Odległość dostawy
+                  </span>
+                </div>
+                <span className={`${transport.color} font-black text-2xl`}>{km} km</span>
+              </div>
+              <input
+                type="range"
+                min="0"
+                max="100"
+                value={km}
+                disabled={address.length > 0}
+                onChange={(e) => handleChange(() => setKm(e.target.value))}
+                className={`w-full h-3 bg-gradient-to-r ${transport.sliderBg} rounded-full appearance-none cursor-pointer ${transport.sliderAccent} hover:h-4 transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed`}
+              />
+              <div className="flex justify-between text-xs text-slate-400 mt-2 font-mono">
+                <span>0</span><span>10</span><span>20</span><span>30</span><span>50</span><span>100</span>
+              </div>
+              {address.length > 0 && (
+                <p className="text-xs text-amber-400 mt-2 flex items-center gap-1.5">
+                  <AlertCircle size={13} className="flex-shrink-0" />
+                  Suwak zablokowany — odległość obliczona na podstawie adresu dostawy.
+                </p>
+              )}
+
+              <div className="mt-4 text-center">
+                <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900 border ${transport.border}`}>
+                  <div className={`w-2.5 h-2.5 rounded-full bg-gradient-to-br ${transport.gradientBg}`}></div>
+                  <span className={`font-black text-sm ${transport.color}`}>STREFA {transport.zoneName}</span>
+                </div>
+                <p className={`${transport.color} font-bold text-base mt-2`}>
+                  {transport.price === 0 ? '🎉 TRANSPORT GRATIS!' : `Transport: ${transport.label}`}
+                </p>
+                {Number(km) <= 10 && !isSand && (
+                  <p className="text-xs text-slate-500 mt-1">
+                    {weightInKg >= 1000
+                      ? '✅ Warunek GRATIS spełniony (≥1000 kg)'
+                      : `⚠️ GRATIS od 1000 kg (teraz: ${Math.round(weightInKg)} kg)`}
+                  </p>
+                )}
+              </div>
+
+              <div className="mt-4 pt-4 border-t border-slate-700">
+                <p className="text-xs font-bold text-slate-300 mb-2 uppercase tracking-wider">
+                  {isSand ? 'Cennik transportu Piasek 0/2:' : 'Strefy dowozu:'}
+                </p>
+                <div className="space-y-1 text-xs text-slate-400">
+                  {zoneGuide.map((z, idx) => (
+                    <div key={idx} className="flex justify-between gap-2">
+                      <span>{z.emoji} {z.range}</span>
+                      <span className="font-bold text-slate-300 flex-shrink-0">{z.price}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 items-start">
-            {/* ════════════════════════════════
-              LEWA KOLUMNA — DANE WEJŚCIOWE
+          {/* ════════════════════════════════
+              PRAWA KOLUMNA — PODSUMOWANIE
           ════════════════════════════════ */}
-            <div className="space-y-5">
-              {/* Wybór materiału */}
-              <div>
-                <label className="text-xs font-bold text-slate-300 mb-2 block uppercase tracking-widest flex items-center gap-2">
-                  <Circle size={10} className="text-amber-400 fill-amber-400" />
-                  Wybierz materiał
-                </label>
-                <div className="relative">
-                  <select
-                    className="w-full bg-slate-800 border border-slate-700 text-white font-semibold p-3 md:p-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-900/50 focus:border-blue-700 transition-all appearance-none cursor-pointer hover:border-slate-600"
-                    onChange={(e) =>
-                      handleChange(() =>
-                        setSelected(
-                          MATERIALS.find((m) => m.id == e.target.value)
-                        )
-                      )
-                    }
-                  >
-                    {MATERIALS.map((m) => (
-                      <option key={m.id} value={m.id} className="bg-slate-800">
-                        {m.name}
-                      </option>
-                    ))}
-                  </select>
-                  <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
-                    <ChevronDown size={18} />
+          <div className="bg-slate-950 rounded-2xl p-5 md:p-7 text-white shadow-2xl relative overflow-hidden border border-slate-800">
+            {/* Subtelna poświata */}
+            <div className="absolute top-0 right-0 w-48 h-48 bg-blue-900/20 rounded-full blur-3xl pointer-events-none"></div>
+            <div className="absolute bottom-0 left-0 w-32 h-32 bg-amber-500/5 rounded-full blur-2xl pointer-events-none"></div>
+
+            <div className="relative z-10">
+              {/* Mini nagłówek */}
+              <div className="flex items-center gap-2 mb-2">
+                <Package size={16} className="text-slate-400" />
+                <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Podsumowanie</p>
+              </div>
+              <h3 className="text-lg md:text-2xl font-black mb-5 text-white leading-tight">{selected.name}</h3>
+
+              {isUnderMinimum ? (
+                <div className="bg-amber-500/10 border border-amber-500/30 p-5 rounded-2xl">
+                  <div className="flex items-start gap-3">
+                    <AlertCircle size={24} className="text-amber-400 flex-shrink-0 mt-0.5" />
+                    <div>
+                      <h4 className="text-base font-black text-amber-400 mb-1">
+                        Min. zamówienie: {minimumWeight} kg
+                      </h4>
+                      <p className="text-slate-400 text-sm">
+                        Aktualna waga: <strong className="text-white">{Math.round(weightInKg)} kg</strong>
+                      </p>
+                      {isSand ? (
+                        <p className="text-slate-400 text-xs mt-2">💡 Możliwy tylko odbiór z placu (100 zł/t)</p>
+                      ) : (
+                        <p className="text-slate-400 text-xs mt-2">Zwiększ powierzchnię lub grubość warstwy.</p>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-
-              {/* Powierzchnia + Grubość */}
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="text-xs font-bold text-slate-300 mb-2 block uppercase tracking-widest flex items-center gap-1">
-                    <Zap size={12} className="text-amber-400" />
-                    Powierzchnia
-                  </label>
-                  <input
-                    type="number"
-                    value={area}
-                    onChange={(e) =>
-                      handleChange(() => setArea(e.target.value))
-                    }
-                    className="w-full bg-slate-800 border border-slate-700 text-white font-bold p-3 md:p-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-900/50 focus:border-blue-700 text-center transition-all hover:border-slate-600"
-                  />
-                  <p className="text-xs text-slate-400 mt-1 text-center font-mono">
-                    m²
-                  </p>
-                </div>
-                <div>
-                  <label className="text-xs font-bold text-slate-300 mb-2 block uppercase tracking-widest flex items-center gap-1">
-                    <Zap size={12} className="text-amber-400" />
-                    Grubość
-                  </label>
-                  <input
-                    type="number"
-                    value={depth}
-                    onChange={(e) =>
-                      handleChange(() => setDepth(e.target.value))
-                    }
-                    className="w-full bg-slate-800 border border-slate-700 text-white font-bold p-3 md:p-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-900/50 focus:border-blue-700 text-center transition-all hover:border-slate-600"
-                  />
-                  <p className="text-xs text-slate-400 mt-1 text-center font-mono">
-                    cm
-                  </p>
-                </div>
-              </div>
-
-              {/* Sposob pakowania */}
-              <div className="mt-1">
-                <label className="block text-sm font-medium text-slate-300 mb-2">
-                  Sposób pakowania i rozładunku
-                </label>
-                <div className="grid grid-cols-2 gap-3">
-                  <button
-                    type="button"
-                    onClick={() => setPackaging('luzem')}
-                    className={`p-3 rounded-xl border text-sm font-medium transition-all flex flex-col items-center justify-center gap-1 ${
-                      packaging === 'luzem'
-                        ? 'bg-blue-900/40 border-blue-500 text-white'
-                        : 'bg-slate-800/50 border-slate-700 text-slate-400 hover:border-slate-500'
-                    }`}
+              ) : isOverWeight || (isSand && transport.tooFar) ? (
+                <div className="space-y-4">
+                  <div className="bg-orange-500/10 border border-orange-500/30 p-5 rounded-2xl">
+                    <div className="flex items-start gap-3">
+                      <AlertCircle size={24} className="text-orange-400 flex-shrink-0 mt-0.5" />
+                      <div>
+                        {isSand && transport.tooFar ? (
+                          <>
+                            <h4 className="text-base font-black text-orange-400 mb-1">Piasek 0/2 — dostawa do 20 km</h4>
+                            <p className="text-slate-400 text-sm">Odległość: <strong className="text-white">{km} km</strong></p>
+                            <p className="text-slate-400 text-xs mt-2">💡 Możliwy tylko odbiór z placu — 100 zł/t</p>
+                          </>
+                        ) : (
+                          <>
+                            <h4 className="text-base font-black text-orange-400 mb-1">Zamówienie powyżej 7 ton</h4>
+                            <p className="text-slate-400 text-sm">Waga: <strong className="text-white">{weight} t</strong></p>
+                            <p className="text-slate-400 text-xs mt-2">📞 Wycena indywidualna – zapraszamy do kontaktu</p>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  <a
+                    href="tel:662333188"
+                    className="w-full bg-blue-900 hover:bg-blue-800 text-white py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2 shadow-lg"
                   >
-                    <span className="font-bold">Luzem (Wywrotka)</span>
-                    <span className="text-xs opacity-70">Brak dopłat</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setPackaging('bigbag')}
-                    className={`p-3 rounded-xl border text-sm font-medium transition-all flex flex-col items-center justify-center gap-1 ${
-                      packaging === 'bigbag'
-                        ? 'bg-amber-900/40 border-amber-500 text-white'
-                        : 'bg-slate-800/50 border-slate-700 text-slate-400 hover:border-slate-500'
-                    }`}
+                    <Phone size={16} />
+                    Zadzwoń: 662-333-188
+                  </a>
+                  <a
+                    href="mailto:biuro@granteco.pl"
+                    className="w-full bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2"
                   >
-                    <span className="font-bold">Worki BIG-BAG (HDS)</span>
-                    <span className="text-xs opacity-70">+120 zł / tonę</span>
-                  </button>
+                    <Mail size={16} />
+                    biuro@granteco.pl
+                  </a>
                 </div>
-                {packaging === 'bigbag' && (
-                  <div className="mt-3">
-                    <p className="text-[11px] text-amber-400/80 leading-tight mb-2">
-                      * Koszt 120 zł obejmuje: 70 zł usługa rozładunku HDS + 50
-                      zł kaucja zwrotna za nienaruszony worek.
-                    </p>
-                    {weight > 2 && (
-                      <div className="p-3 bg-red-900/30 border border-red-500/50 rounded-lg flex items-start gap-2 text-red-400 text-sm">
-                        <AlertCircle size={18} className="shrink-0 mt-0.5" />
-                        <p>
-                          Przekroczono maksymalną ilość realizowaną w workach
-                          BIG-BAG w ramach jednego transportu (max 2 tony).
-                        </p>
+              ) : (
+                <>
+                  {/* Tabela pozycji */}
+                  <div className="mb-6 rounded-xl overflow-hidden border border-slate-700/60">
+                    <div className="flex justify-between items-center px-4 py-3 border-b border-slate-700/60 bg-slate-800/40">
+                      <span className="text-slate-300 text-sm">Waga materiału</span>
+                      <span className="font-bold text-white">{weight} t</span>
+                    </div>
+                    <div className="flex justify-between items-center px-4 py-3 border-b border-slate-700/60">
+                      <span className="text-slate-300 text-sm">Cena materiału</span>
+                      <div className="text-right">
+                        {materialDiscount > 0 && (
+                          <div className="text-xs text-slate-500 line-through">{matCostBeforeDiscount} zł</div>
+                        )}
+                        <span className="font-bold text-white">
+                          {matCost} zł
+                          {materialDiscount > 0 && <span className="text-xs text-green-400 ml-1">(-{materialDiscount}%)</span>}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex justify-between items-center px-4 py-3 border-b border-slate-700/60 bg-slate-800/40">
+                      <span className="text-slate-300 text-sm">Koszt transportu</span>
+                      <span className="font-bold">
+                        {transCost === 0
+                          ? <span className="text-green-400 text-sm">✨ GRATIS</span>
+                          : <span className="text-white">{transCost} zł</span>}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center px-4 py-3">
+                      <span className="text-slate-300 text-sm">Strefa</span>
+                      <span className={`text-sm font-semibold ${transport.color}`}>
+                        {transport.emoji} {transport.zoneName}
+                      </span>
+                    </div>
+                    {packaging === 'bigbag' && (
+                      <div className="flex justify-between items-center px-4 py-3 border-t border-slate-700/60 bg-amber-900/10">
+                        <span className="text-amber-300 text-sm">BIG-BAG x{bigBagQuantity} worki</span>
+                        <span className="font-bold text-amber-300">{bigBagCost} zł</span>
                       </div>
                     )}
                   </div>
-                )}
-              </div>
 
-              {/* Adres dostawy */}
-              <div className="address-autocomplete bg-slate-800/60 border border-slate-700 p-4 rounded-2xl relative">
-                <label className="text-xs font-bold text-slate-300 mb-2 block uppercase tracking-widest flex items-center gap-2">
-                  <MapPin size={12} className="text-amber-400" />
-                  Adres dostawy
-                </label>
-                <div className="relative">
-                  <input
-                    type="text"
-                    value={address}
-                    onChange={handleAddressChange}
-                    placeholder="Wpisz dokładny adres (ulica, numer, miejscowość)"
-                    className="w-full bg-slate-800 border border-slate-700 text-white pl-10 pr-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-900/50 focus:border-blue-700 transition-all text-sm placeholder:text-slate-600"
-                  />
-                  <div className="absolute left-3 top-1/2 -translate-y-1/2 text-amber-400">
-                    {isLoadingSuggestions ? (
-                      <div className="w-4 h-4 border-2 border-amber-400 border-t-transparent rounded-full animate-spin"></div>
-                    ) : (
-                      <MapPin size={16} />
-                    )}
-                  </div>
-                </div>
-                {showSuggestions && addressSuggestions.length > 0 && (
-                  <div className="absolute left-4 right-4 mt-2 bg-slate-800 rounded-xl shadow-2xl border border-slate-700 z-50 max-h-64 overflow-y-auto">
-                    {addressSuggestions.map((s, idx) => (
-                      <button
-                        key={idx}
-                        onClick={() => handleSelectAddress(s)}
-                        className="w-full px-4 py-3 text-left hover:bg-slate-700 transition-colors border-b border-slate-700/50 last:border-0 flex items-start gap-3"
-                      >
-                        <MapPin
-                          size={14}
-                          className="text-amber-400 mt-1 flex-shrink-0"
-                        />
-                        <span className="text-sm text-slate-300">
-                          {s.display_name}
+                  {/* Razem — duże cyfry z bursztynową poświatą */}
+                  <div className="relative bg-slate-800/80 border border-slate-700 rounded-2xl p-5 mb-5 overflow-hidden">
+                    <div className="absolute inset-0 bg-amber-500/5 rounded-2xl"></div>
+                    <div className="relative z-10 flex justify-between items-center">
+                      <div>
+                        <p className="text-xs font-bold uppercase tracking-widest text-slate-300">Razem do zapłaty</p>
+                        <p className="text-slate-400 text-xs mt-0.5">{area} m² · {depth} cm · {km} km</p>
+                      </div>
+                      <div className="text-right">
+                        <span className="text-4xl md:text-5xl font-black text-white drop-shadow-[0_0_20px_rgba(245,158,11,0.3)]">
+                          {totalCost}
                         </span>
-                      </button>
+                        <span className="text-xl font-bold text-amber-400 ml-1">zł</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* CTA — zamów */}
+                  <button
+                    onClick={() => setIsOrderModalOpen(true)}
+                    disabled={packaging === 'bigbag' && weight > 2}
+                    className="relative w-full inline-flex justify-center items-center gap-2 px-6 py-4 rounded-xl font-bold text-white/95 overflow-hidden group transition-all duration-500 ease-in-out hover:scale-[1.02] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
+                    style={{
+                      background: 'radial-gradient(ellipse at 40% 30%, rgba(100,75,15,0.8) 0%, rgba(35,25,5,0.97) 55%, rgba(12,8,2,1) 100%)',
+                      boxShadow: '0 0 0 1px rgba(200,155,40,0.25), 0 6px 24px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,220,100,0.2), inset 0 0 35px rgba(180,120,20,0.18)',
+                      backdropFilter: 'blur(8px)',
+                    }}
+                  >
+                    <span className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" style={{ background: 'radial-gradient(ellipse at 50% 70%, rgba(245,158,11,0.4) 0%, transparent 65%)', boxShadow: 'inset 0 0 40px rgba(245,158,11,0.2)' }}></span>
+                    <span className="absolute inset-[-2px] rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" style={{ boxShadow: '0 0 16px rgba(245,158,11,0.3), 0 0 35px rgba(245,158,11,0.12)' }}></span>
+                    <span className="absolute top-1.5 left-6 right-6 h-2 rounded-full bg-white/20 blur-sm pointer-events-none"></span>
+                    <Package size={18} className="relative z-10 text-amber-300 group-hover:text-white transition-colors duration-300" />
+                    <span className="relative z-10 tracking-wide">Zamów teraz</span>
+                    <ArrowRight size={18} className="relative z-10 animate-pulse" />
+                  </button>
+
+                  {/* Szczegóły — z cienkimi liniami */}
+                  <div className="mt-4 rounded-xl overflow-hidden border border-slate-700/60">
+                    <div className="flex items-center gap-2 px-4 py-2.5 bg-slate-800 border-b border-slate-700/60">
+                      <Package size={13} className="text-amber-400" />
+                      <span className="text-xs font-bold uppercase tracking-widest text-slate-300">Szczegóły zamówienia</span>
+                    </div>
+                    {[
+                      { k: 'Materiał', v: selected.name },
+                      { k: 'Powierzchnia', v: `${area} m²` },
+                      { k: 'Grubość', v: `${depth} cm` },
+                      { k: 'Waga', v: `${weight} t` },
+                      { k: 'Pakowanie', v: packaging === 'bigbag' ? `BIG-BAG x${bigBagQuantity} (${bigBagCost} zł)` : 'Luzem (wywrotka)' },
+                      { k: 'Odległość', v: `${km} km (${transport.zoneName})` },
+                      { k: 'Transport', v: transCost === 0 ? '✨ GRATIS' : `${transCost} zł` },
+                      { k: 'Łącznie', v: `${totalCost} zł` },
+                    ].map((r, i, arr) => (
+                      <div
+                        key={r.k}
+                        className={`flex justify-between items-center px-4 py-2.5 text-xs ${i % 2 === 0 ? 'bg-slate-800/40' : ''} ${i < arr.length - 1 ? 'border-b border-slate-700/50' : ''} ${i === arr.length - 1 ? 'border-t-2 border-slate-600' : ''}`}
+                      >
+                        <span className="text-slate-400">{r.k}:</span>
+                        <span className={`font-semibold text-right ml-2 ${i === arr.length - 1 ? 'text-amber-400 font-black' : 'text-slate-200'}`}>{r.v}</span>
+                      </div>
                     ))}
                   </div>
-                )}
-                {addressError && (
-                  <div className="mt-3 p-3 bg-orange-500/10 border-l-4 border-orange-500 rounded-lg flex items-start gap-2">
-                    <AlertCircle
-                      size={16}
-                      className="text-orange-400 mt-0.5 flex-shrink-0"
-                    />
-                    <p className="text-orange-300 text-xs font-medium">
-                      {addressError}
-                    </p>
-                  </div>
-                )}
-                <p className="text-xs text-slate-400 mt-2">
-                  💡 Zacznij pisać adres — odległość zostanie obliczona
-                  automatycznie od {COMPANY_LOCATION.name}
+                </>
+              )}
+            </div>
+          </div>
+
+        </div>
+
+    {/* --- MODAL FORMULARZA ZAMOWIENIA --- */}
+    {isOrderModalOpen && (
+      <div className="fixed inset-0 z-[100] flex items-start justify-center p-4 sm:p-6 bg-slate-950/80 backdrop-blur-md animate-fadeIn overflow-y-auto">
+        <div className="bg-white w-full max-w-3xl rounded-3xl shadow-2xl relative my-8 overflow-hidden border border-slate-200">
+
+          {/* Nagłówek */}
+          <div className="bg-blue-900 p-6 md:p-8 text-white flex justify-between items-center relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-blue-800 rounded-full blur-3xl -mr-20 -mt-20 opacity-50 pointer-events-none"></div>
+            <div className="relative z-10">
+              <h2 className="text-2xl md:text-3xl font-black mb-1">Finalizacja zamówienia</h2>
+              <p className="text-blue-200 text-sm">Uzupełnij dane, aby przekazać zamówienie do realizacji</p>
+            </div>
+            <button
+              onClick={() => setIsOrderModalOpen(false)}
+              className="relative z-10 p-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors"
+            >
+              <X size={24} />
+            </button>
+          </div>
+
+          <form onSubmit={handleOrderSubmit}>
+          <div className="p-6 md:p-8 flex flex-col md:flex-row gap-8">
+
+            {/* Kolumna lewa: Formularz */}
+            <div className="flex-1 space-y-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">Imię i nazwisko / Firma *</label>
+                  <input type="text" name="Imie_i_nazwisko" className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-900/20 focus:border-blue-900 transition-all" placeholder="np. Jan Kowalski" required />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">NIP (opcjonalnie dla FV)</label>
+                  <input type="text" name="NIP" className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-900/20 focus:border-blue-900 transition-all" placeholder="np. 1234567890" />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">Telefon kontaktowy *</label>
+                  <input type="tel" name="Telefon" className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-900/20 focus:border-blue-900 transition-all" placeholder="+48 000 000 000" required />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">Adres e-mail *</label>
+                  <input type="email" name="email" className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-900/20 focus:border-blue-900 transition-all" placeholder="adres@domena.pl" required />
+                </div>
+              </div>
+
+              {/* Sekcja Adresu (JEDNO, PEŁNE POLE) */}
+              <div className="relative mb-5">
+                <label className="block text-sm font-medium text-slate-700 mb-1">Dokładny adres dostawy *</label>
+                <input
+                  type="text"
+                  name="Adres_dostawy"
+                  defaultValue={address}
+                  className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-900/20 focus:border-blue-900 transition-all"
+                  placeholder="Miejscowość, ulica, nr budynku/lokalu"
+                  required
+                />
+                <p className="text-[10px] text-emerald-600 mt-1 flex items-center gap-1 font-medium">
+                  <Check size={12} /> Uzupełniono automatycznie z kalkulatora (możesz edytować w razie potrzeby)
                 </p>
               </div>
 
-              {/* Suwak odległości */}
-              <div
-                className={`p-4 md:p-5 rounded-2xl bg-slate-800/60 border border-slate-700 transition-all duration-500`}
-              >
-                <div className="flex justify-between items-center mb-4">
-                  <div className="flex items-center gap-2">
-                    <Truck size={18} className={transport.color} />
-                    <span className="font-bold text-xs uppercase tracking-widest text-slate-300">
-                      Odległość dostawy
-                    </span>
+              {/* Sekcja Daty i Godziny Dostawy */}
+              <div className="bg-blue-50/50 border border-blue-100 p-4 rounded-2xl space-y-3 mb-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">Data dostawy *</label>
+                    <input
+                      type="date"
+                      name="Data_dostawy"
+                      className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-900/20 focus:border-blue-900 transition-all"
+                      required
+                    />
                   </div>
-                  <span className={`${transport.color} font-black text-2xl`}>
-                    {km} km
-                  </span>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">Preferowana godzina *</label>
+                    <input
+                      type="time"
+                      name="Preferowana_godzina"
+                      className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-900/20 focus:border-blue-900 transition-all"
+                      required
+                    />
+                  </div>
                 </div>
-                <input
-                  type="range"
-                  min="0"
-                  max="100"
-                  value={km}
-                  disabled={address.length > 0}
-                  onChange={(e) => handleChange(() => setKm(e.target.value))}
-                  className={`w-full h-3 bg-gradient-to-r ${transport.sliderBg} rounded-full appearance-none cursor-pointer ${transport.sliderAccent} hover:h-4 transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed`}
-                />
-                <div className="flex justify-between text-xs text-slate-400 mt-2 font-mono">
-                  <span>0</span>
-                  <span>10</span>
-                  <span>20</span>
-                  <span>30</span>
-                  <span>50</span>
-                  <span>100</span>
-                </div>
-                {address.length > 0 && (
-                  <p className="text-xs text-amber-400 mt-2 flex items-center gap-1.5">
-                    <AlertCircle size={13} className="flex-shrink-0" />
-                    Suwak zablokowany — odległość obliczona na podstawie adresu
-                    dostawy.
-                  </p>
-                )}
+                <p className="text-xs text-amber-600 flex items-start gap-1.5 font-medium">
+                  <AlertCircle size={16} className="shrink-0" />
+                  <span>Dostawy realizujemy: <strong className="text-slate-800">Pn-Pt (9:00 - 15:00)</strong> oraz w <strong className="text-slate-800">Soboty (9:00 - 12:00)</strong>. W przypadku innej godziny, skontaktujemy się w celu ustaleń.</span>
+                </p>
+              </div>
 
-                <div className="mt-4 text-center">
-                  <div
-                    className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900 border ${transport.border}`}
-                  >
-                    <div
-                      className={`w-2.5 h-2.5 rounded-full bg-gradient-to-br ${transport.gradientBg}`}
-                    ></div>
-                    <span className={`font-black text-sm ${transport.color}`}>
-                      STREFA {transport.zoneName}
+              {/* Uwagi */}
+              <div className="mb-2">
+                <label className="block text-sm font-medium text-slate-700 mb-1">Uwagi do zamówienia / Wskazówki dojazdu</label>
+                <textarea
+                  name="Uwagi"
+                  className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-900/20 focus:border-blue-900 transition-all min-h-[80px]"
+                  placeholder="np. Proszę dzwonić 30 min przed dostawą, wjazd od strony lasu..."
+                ></textarea>
+              </div>
+
+              {/* Legenda */}
+              <p className="text-xs text-slate-500 font-medium pb-2 border-b border-slate-100 mb-4">
+                * - pole obowiązkowe
+              </p>
+            </div>
+
+            {/* Kolumna prawa: Podsumowanie i zgody */}
+            <div className="w-full md:w-72 flex flex-col">
+              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5 mb-5">
+                <h3 className="font-bold text-slate-800 mb-4 border-b border-slate-200 pb-2">Twoje zamówienie</h3>
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between text-slate-600">
+                    <span>Materiał:</span>
+                    <span className="font-medium text-slate-800 text-right ml-2">{selected.name}</span>
+                  </div>
+                  <div className="flex justify-between text-slate-600">
+                    <span>Waga:</span>
+                    <span className="font-medium text-slate-800">{weight} t</span>
+                  </div>
+                  <div className="flex justify-between text-slate-600">
+                    <span>Wartość towaru:</span>
+                    <span className="font-medium text-slate-800">{matCost} zł</span>
+                  </div>
+                  <div className="flex justify-between text-slate-600 pb-3 border-b border-slate-200">
+                    <span>Koszty dostawy:</span>
+                    <span className="font-medium text-slate-800">
+                      {transCost === 0 ? <span className="text-emerald-600">GRATIS</span> : `${transCost} zł`}
                     </span>
                   </div>
-                  <p className={`${transport.color} font-bold text-base mt-2`}>
-                    {transport.price === 0
-                      ? '🎉 TRANSPORT GRATIS!'
-                      : `Transport: ${transport.label}`}
+                  <p className="text-xs text-slate-400 italic mt-1 mb-1 leading-relaxed">
+                    Szacunkowy koszt transportu. Ze względu na warunki dojazdu, ostateczna cena dostawy zostanie potwierdzona przez naszego pracownika.
                   </p>
-                  {Number(km) <= 10 && !isSand && (
-                    <p className="text-xs text-slate-500 mt-1">
-                      {weightInKg >= 1000
-                        ? '✅ Warunek GRATIS spełniony (≥1000 kg)'
-                        : `⚠️ GRATIS od 1000 kg (teraz: ${Math.round(
-                            weightInKg
-                          )} kg)`}
-                    </p>
+                  {packaging === 'bigbag' && (
+                    <div className="flex justify-between text-slate-600 pb-3 border-b border-slate-200">
+                      <span>BIG-BAG x{bigBagQuantity} worki:</span>
+                      <span className="font-medium text-amber-700">{bigBagCost} zł</span>
+                    </div>
                   )}
-                </div>
-
-                <div className="mt-4 pt-4 border-t border-slate-700">
-                  <p className="text-xs font-bold text-slate-300 mb-2 uppercase tracking-wider">
-                    {isSand
-                      ? 'Cennik transportu Piasek 0/2:'
-                      : 'Strefy dowozu:'}
-                  </p>
-                  <div className="space-y-1 text-xs text-slate-400">
-                    {zoneGuide.map((z, idx) => (
-                      <div key={idx} className="flex justify-between gap-2">
-                        <span>
-                          {z.emoji} {z.range}
-                        </span>
-                        <span className="font-bold text-slate-300 flex-shrink-0">
-                          {z.price}
-                        </span>
-                      </div>
-                    ))}
+                  <div className="flex justify-between items-center pt-1">
+                    <span className="font-bold text-slate-700">Razem brutto:</span>
+                    <span className="text-xl font-black text-blue-900">{totalCost} zł</span>
                   </div>
                 </div>
               </div>
-            </div>
 
-            {/* ════════════════════════════════
-              PRAWA KOLUMNA — PODSUMOWANIE
-          ════════════════════════════════ */}
-            <div className="bg-slate-950 rounded-2xl p-5 md:p-7 text-white shadow-2xl relative overflow-hidden border border-slate-800">
-              {/* Subtelna poświata */}
-              <div className="absolute top-0 right-0 w-48 h-48 bg-blue-900/20 rounded-full blur-3xl pointer-events-none"></div>
-              <div className="absolute bottom-0 left-0 w-32 h-32 bg-amber-500/5 rounded-full blur-2xl pointer-events-none"></div>
+              {/* Zgody prawne */}
+              <div className="space-y-3 mb-5">
+                <label className="flex items-start gap-3 cursor-pointer group">
+                  <input type="checkbox" className="mt-1 w-4 h-4 accent-blue-900 bg-slate-100 border-slate-300 rounded focus:ring-blue-900" required />
+                  <span className="text-xs text-slate-500 group-hover:text-slate-700 transition-colors leading-relaxed">
+                    Akceptuję{' '}
+                    <button
+                      type="button"
+                      onClick={() => setLegalModal('regulamin')}
+                      className="text-blue-700 underline hover:text-blue-900 transition-colors font-medium"
+                    >Regulamin</button>
+                    {' '}oraz potwierdzam zapoznanie się z{' '}
+                    <button
+                      type="button"
+                      onClick={() => setLegalModal('polityka')}
+                      className="text-blue-700 underline hover:text-blue-900 transition-colors font-medium"
+                    >Polityką Prywatności</button>. *
+                  </span>
+                </label>
+                <label className="flex items-start gap-3 cursor-pointer group">
+                  <input type="checkbox" className="mt-1 w-4 h-4 accent-blue-900 bg-slate-100 border-slate-300 rounded focus:ring-blue-900" required />
+                  <span className="text-xs text-slate-500 group-hover:text-slate-700 transition-colors leading-relaxed">
+                    Wyrażam zgodę na przetwarzanie moich danych osobowych w celu realizacji zamówienia. *
+                  </span>
+                </label>
+              </div>
 
-              <div className="relative z-10">
-                {/* Mini nagłówek */}
-                <div className="flex items-center gap-2 mb-2">
-                  <Package size={16} className="text-slate-400" />
-                  <p className="text-xs font-bold uppercase tracking-widest text-slate-400">
-                    Podsumowanie
-                  </p>
-                </div>
-                <h3 className="text-lg md:text-2xl font-black mb-5 text-white leading-tight">
-                  {selected.name}
-                </h3>
-
-                {isUnderMinimum ? (
-                  <div className="bg-amber-500/10 border border-amber-500/30 p-5 rounded-2xl">
-                    <div className="flex items-start gap-3">
-                      <AlertCircle
-                        size={24}
-                        className="text-amber-400 flex-shrink-0 mt-0.5"
-                      />
-                      <div>
-                        <h4 className="text-base font-black text-amber-400 mb-1">
-                          Min. zamówienie: {minimumWeight} kg
-                        </h4>
-                        <p className="text-slate-400 text-sm">
-                          Aktualna waga:{' '}
-                          <strong className="text-white">
-                            {Math.round(weightInKg)} kg
-                          </strong>
-                        </p>
-                        {isSand ? (
-                          <p className="text-slate-400 text-xs mt-2">
-                            💡 Możliwy tylko odbiór z placu (100 zł/t)
-                          </p>
-                        ) : (
-                          <p className="text-slate-400 text-xs mt-2">
-                            Zwiększ powierzchnię lub grubość warstwy.
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                ) : isOverWeight || (isSand && transport.tooFar) ? (
-                  <div className="space-y-4">
-                    <div className="bg-orange-500/10 border border-orange-500/30 p-5 rounded-2xl">
-                      <div className="flex items-start gap-3">
-                        <AlertCircle
-                          size={24}
-                          className="text-orange-400 flex-shrink-0 mt-0.5"
-                        />
-                        <div>
-                          {isSand && transport.tooFar ? (
-                            <>
-                              <h4 className="text-base font-black text-orange-400 mb-1">
-                                Piasek 0/2 — dostawa do 20 km
-                              </h4>
-                              <p className="text-slate-400 text-sm">
-                                Odległość:{' '}
-                                <strong className="text-white">{km} km</strong>
-                              </p>
-                              <p className="text-slate-400 text-xs mt-2">
-                                💡 Możliwy tylko odbiór z placu — 100 zł/t
-                              </p>
-                            </>
-                          ) : (
-                            <>
-                              <h4 className="text-base font-black text-orange-400 mb-1">
-                                Zamówienie powyżej 7 ton
-                              </h4>
-                              <p className="text-slate-400 text-sm">
-                                Waga:{' '}
-                                <strong className="text-white">
-                                  {weight} t
-                                </strong>
-                              </p>
-                              <p className="text-slate-400 text-xs mt-2">
-                                📞 Wycena indywidualna – zapraszamy do kontaktu
-                              </p>
-                            </>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                    <a
-                      href="tel:662333188"
-                      className="w-full bg-blue-900 hover:bg-blue-800 text-white py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2 shadow-lg"
-                    >
-                      <Phone size={16} />
-                      Zadzwoń: 662-333-188
-                    </a>
-                    <a
-                      href="mailto:biuro@granteco.pl"
-                      className="w-full bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2"
-                    >
-                      <Mail size={16} />
-                      biuro@granteco.pl
-                    </a>
-                  </div>
+              <button
+                type="submit"
+                disabled={isSubmitting || (packaging === 'bigbag' && weight > 2)}
+                className="w-full inline-flex justify-center items-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-900 px-6 py-4 rounded-xl font-black shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 uppercase tracking-wide text-sm mt-auto disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+              >
+                {isSubmitting ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-slate-900 border-t-transparent rounded-full animate-spin"></div>
+                    Wysyłanie...
+                  </>
                 ) : (
                   <>
-                    {/* Tabela pozycji */}
-                    <div className="mb-6 rounded-xl overflow-hidden border border-slate-700/60">
-                      <div className="flex justify-between items-center px-4 py-3 border-b border-slate-700/60 bg-slate-800/40">
-                        <span className="text-slate-300 text-sm">
-                          Waga materiału
-                        </span>
-                        <span className="font-bold text-white">{weight} t</span>
-                      </div>
-                      <div className="flex justify-between items-center px-4 py-3 border-b border-slate-700/60">
-                        <span className="text-slate-300 text-sm">
-                          Cena materiału
-                        </span>
-                        <div className="text-right">
-                          {materialDiscount > 0 && (
-                            <div className="text-xs text-slate-500 line-through">
-                              {matCostBeforeDiscount} zł
-                            </div>
-                          )}
-                          <span className="font-bold text-white">
-                            {matCost} zł
-                            {materialDiscount > 0 && (
-                              <span className="text-xs text-green-400 ml-1">
-                                (-{materialDiscount}%)
-                              </span>
-                            )}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="flex justify-between items-center px-4 py-3 border-b border-slate-700/60 bg-slate-800/40">
-                        <span className="text-slate-300 text-sm">
-                          Koszt transportu
-                        </span>
-                        <span className="font-bold">
-                          {transCost === 0 ? (
-                            <span className="text-green-400 text-sm">
-                              ✨ GRATIS
-                            </span>
-                          ) : (
-                            <span className="text-white">{transCost} zł</span>
-                          )}
-                        </span>
-                      </div>
-                      <div className="flex justify-between items-center px-4 py-3">
-                        <span className="text-slate-300 text-sm">Strefa</span>
-                        <span
-                          className={`text-sm font-semibold ${transport.color}`}
-                        >
-                          {transport.emoji} {transport.zoneName}
-                        </span>
-                      </div>
-                      {packaging === 'bigbag' && (
-                        <div className="flex justify-between items-center px-4 py-3 border-t border-slate-700/60 bg-amber-900/10">
-                          <span className="text-amber-300 text-sm">
-                            BIG-BAG x{bigBagQuantity} worki
-                          </span>
-                          <span className="font-bold text-amber-300">
-                            {bigBagCost} zł
-                          </span>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Razem — duże cyfry z bursztynową poświatą */}
-                    <div className="relative bg-slate-800/80 border border-slate-700 rounded-2xl p-5 mb-5 overflow-hidden">
-                      <div className="absolute inset-0 bg-amber-500/5 rounded-2xl"></div>
-                      <div className="relative z-10 flex justify-between items-center">
-                        <div>
-                          <p className="text-xs font-bold uppercase tracking-widest text-slate-300">
-                            Razem do zapłaty
-                          </p>
-                          <p className="text-slate-400 text-xs mt-0.5">
-                            {area} m² · {depth} cm · {km} km
-                          </p>
-                        </div>
-                        <div className="text-right">
-                          <span className="text-4xl md:text-5xl font-black text-white drop-shadow-[0_0_20px_rgba(245,158,11,0.3)]">
-                            {totalCost}
-                          </span>
-                          <span className="text-xl font-bold text-amber-400 ml-1">
-                            zł
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* CTA — zamów */}
-                    <button
-                      onClick={() => setIsOrderModalOpen(true)}
-                      disabled={packaging === 'bigbag' && weight > 2}
-                      className="relative w-full inline-flex justify-center items-center gap-2 px-6 py-4 rounded-xl font-bold text-white/95 overflow-hidden group transition-all duration-500 ease-in-out hover:scale-[1.02] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
-                      style={{
-                        background:
-                          'radial-gradient(ellipse at 40% 30%, rgba(100,75,15,0.8) 0%, rgba(35,25,5,0.97) 55%, rgba(12,8,2,1) 100%)',
-                        boxShadow:
-                          '0 0 0 1px rgba(200,155,40,0.25), 0 6px 24px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,220,100,0.2), inset 0 0 35px rgba(180,120,20,0.18)',
-                        backdropFilter: 'blur(8px)',
-                      }}
-                    >
-                      <span
-                        className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                        style={{
-                          background:
-                            'radial-gradient(ellipse at 50% 70%, rgba(245,158,11,0.4) 0%, transparent 65%)',
-                          boxShadow: 'inset 0 0 40px rgba(245,158,11,0.2)',
-                        }}
-                      ></span>
-                      <span
-                        className="absolute inset-[-2px] rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                        style={{
-                          boxShadow:
-                            '0 0 16px rgba(245,158,11,0.3), 0 0 35px rgba(245,158,11,0.12)',
-                        }}
-                      ></span>
-                      <span className="absolute top-1.5 left-6 right-6 h-2 rounded-full bg-white/20 blur-sm pointer-events-none"></span>
-                      <Package
-                        size={18}
-                        className="relative z-10 text-amber-300 group-hover:text-white transition-colors duration-300"
-                      />
-                      <span className="relative z-10 tracking-wide">
-                        Zamów teraz
-                      </span>
-                      <ArrowRight
-                        size={18}
-                        className="relative z-10 animate-pulse"
-                      />
-                    </button>
-
-                    {/* Szczegóły — z cienkimi liniami */}
-                    <div className="mt-4 rounded-xl overflow-hidden border border-slate-700/60">
-                      <div className="flex items-center gap-2 px-4 py-2.5 bg-slate-800 border-b border-slate-700/60">
-                        <Package size={13} className="text-amber-400" />
-                        <span className="text-xs font-bold uppercase tracking-widest text-slate-300">
-                          Szczegóły zamówienia
-                        </span>
-                      </div>
-                      {[
-                        { k: 'Materiał', v: selected.name },
-                        { k: 'Powierzchnia', v: `${area} m²` },
-                        { k: 'Grubość', v: `${depth} cm` },
-                        { k: 'Waga', v: `${weight} t` },
-                        {
-                          k: 'Pakowanie',
-                          v:
-                            packaging === 'bigbag'
-                              ? `BIG-BAG x${bigBagQuantity} (${bigBagCost} zł)`
-                              : 'Luzem (wywrotka)',
-                        },
-                        {
-                          k: 'Odległość',
-                          v: `${km} km (${transport.zoneName})`,
-                        },
-                        {
-                          k: 'Transport',
-                          v: transCost === 0 ? '✨ GRATIS' : `${transCost} zł`,
-                        },
-                        { k: 'Łącznie', v: `${totalCost} zł` },
-                      ].map((r, i, arr) => (
-                        <div
-                          key={r.k}
-                          className={`flex justify-between items-center px-4 py-2.5 text-xs ${
-                            i % 2 === 0 ? 'bg-slate-800/40' : ''
-                          } ${
-                            i < arr.length - 1
-                              ? 'border-b border-slate-700/50'
-                              : ''
-                          } ${
-                            i === arr.length - 1
-                              ? 'border-t-2 border-slate-600'
-                              : ''
-                          }`}
-                        >
-                          <span className="text-slate-400">{r.k}:</span>
-                          <span
-                            className={`font-semibold text-right ml-2 ${
-                              i === arr.length - 1
-                                ? 'text-amber-400 font-black'
-                                : 'text-slate-200'
-                            }`}
-                          >
-                            {r.v}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
+                    <Check size={18} />
+                    Zamawiam z obowiązkiem zapłaty
                   </>
                 )}
-              </div>
+              </button>
+              <input type="hidden" name="Sposob_pakowania" value={packaging === 'bigbag' ? `BIG-BAG (${bigBagQuantity} worki = ${bigBagCost} zl)` : 'Luzem (wywrotka)'} />
+
+              <p className="text-[10px] text-slate-400 text-center mt-3 leading-relaxed">
+                Płatność następuje u kierowcy (gotówka/karta) w momencie dostawy towaru.
+              </p>
             </div>
           </div>
-
-          {/* --- MODAL FORMULARZA ZAMOWIENIA --- */}
-          {isOrderModalOpen && (
-            <div className="fixed inset-0 z-[100] flex items-start justify-center p-4 sm:p-6 bg-slate-950/80 backdrop-blur-md animate-fadeIn overflow-y-auto">
-              <div className="bg-white w-full max-w-3xl rounded-3xl shadow-2xl relative my-8 overflow-hidden border border-slate-200">
-                {/* Nagłówek */}
-                <div className="bg-blue-900 p-6 md:p-8 text-white flex justify-between items-center relative overflow-hidden">
-                  <div className="absolute top-0 right-0 w-64 h-64 bg-blue-800 rounded-full blur-3xl -mr-20 -mt-20 opacity-50 pointer-events-none"></div>
-                  <div className="relative z-10">
-                    <h2 className="text-2xl md:text-3xl font-black mb-1">
-                      Finalizacja zamówienia
-                    </h2>
-                    <p className="text-blue-200 text-sm">
-                      Uzupełnij dane, aby przekazać zamówienie do realizacji
-                    </p>
-                  </div>
-                  <button
-                    onClick={() => setIsOrderModalOpen(false)}
-                    className="relative z-10 p-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors"
-                  >
-                    <X size={24} />
-                  </button>
-                </div>
-
-                <form onSubmit={handleOrderSubmit}>
-                  <div className="p-6 md:p-8 flex flex-col md:flex-row gap-8">
-                    {/* Kolumna lewa: Formularz */}
-                    <div className="flex-1 space-y-5">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                        <div>
-                          <label className="block text-sm font-medium text-slate-700 mb-1">
-                            Imię i nazwisko / Firma *
-                          </label>
-                          <input
-                            type="text"
-                            name="Imie_i_nazwisko"
-                            className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-900/20 focus:border-blue-900 transition-all"
-                            placeholder="np. Jan Kowalski"
-                            required
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-slate-700 mb-1">
-                            NIP (opcjonalnie dla FV)
-                          </label>
-                          <input
-                            type="text"
-                            name="NIP"
-                            className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-900/20 focus:border-blue-900 transition-all"
-                            placeholder="np. 1234567890"
-                          />
-                        </div>
-                      </div>
-
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                        <div>
-                          <label className="block text-sm font-medium text-slate-700 mb-1">
-                            Telefon kontaktowy *
-                          </label>
-                          <input
-                            type="tel"
-                            name="Telefon"
-                            className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-900/20 focus:border-blue-900 transition-all"
-                            placeholder="+48 000 000 000"
-                            required
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-slate-700 mb-1">
-                            Adres e-mail *
-                          </label>
-                          <input
-                            type="email"
-                            name="email"
-                            className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-900/20 focus:border-blue-900 transition-all"
-                            placeholder="adres@domena.pl"
-                            required
-                          />
-                        </div>
-                      </div>
-
-                      {/* Sekcja Adresu (JEDNO, PEŁNE POLE) */}
-                      <div className="relative mb-5">
-                        <label className="block text-sm font-medium text-slate-700 mb-1">
-                          Dokładny adres dostawy *
-                        </label>
-                        <input
-                          type="text"
-                          name="Adres_dostawy"
-                          defaultValue={address}
-                          className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-900/20 focus:border-blue-900 transition-all"
-                          placeholder="Miejscowość, ulica, nr budynku/lokalu"
-                          required
-                        />
-                        <p className="text-[10px] text-emerald-600 mt-1 flex items-center gap-1 font-medium">
-                          <Check size={12} /> Uzupełniono automatycznie z
-                          kalkulatora (możesz edytować w razie potrzeby)
-                        </p>
-                      </div>
-
-                      {/* Sekcja Daty i Godziny Dostawy */}
-                      <div className="bg-blue-50/50 border border-blue-100 p-4 rounded-2xl space-y-3 mb-5">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                          <div>
-                            <label className="block text-sm font-medium text-slate-700 mb-1">
-                              Data dostawy *
-                            </label>
-                            <input
-                              type="date"
-                              name="Data_dostawy"
-                              className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-900/20 focus:border-blue-900 transition-all"
-                              required
-                            />
-                          </div>
-                          <div>
-                            <label className="block text-sm font-medium text-slate-700 mb-1">
-                              Preferowana godzina *
-                            </label>
-                            <input
-                              type="time"
-                              name="Preferowana_godzina"
-                              className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-900/20 focus:border-blue-900 transition-all"
-                              required
-                            />
-                          </div>
-                        </div>
-                        <p className="text-xs text-amber-600 flex items-start gap-1.5 font-medium">
-                          <AlertCircle size={16} className="shrink-0" />
-                          <span>
-                            Dostawy realizujemy:{' '}
-                            <strong className="text-slate-800">
-                              Pn-Pt (9:00 - 15:00)
-                            </strong>{' '}
-                            oraz w{' '}
-                            <strong className="text-slate-800">
-                              Soboty (9:00 - 12:00)
-                            </strong>
-                            . W przypadku innej godziny, skontaktujemy się w
-                            celu ustaleń.
-                          </span>
-                        </p>
-                      </div>
-
-                      {/* Uwagi */}
-                      <div className="mb-2">
-                        <label className="block text-sm font-medium text-slate-700 mb-1">
-                          Uwagi do zamówienia / Wskazówki dojazdu
-                        </label>
-                        <textarea
-                          name="Uwagi"
-                          className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-900/20 focus:border-blue-900 transition-all min-h-[80px]"
-                          placeholder="np. Proszę dzwonić 30 min przed dostawą, wjazd od strony lasu..."
-                        ></textarea>
-                      </div>
-
-                      {/* Legenda */}
-                      <p className="text-xs text-slate-500 font-medium pb-2 border-b border-slate-100 mb-4">
-                        * - pole obowiązkowe
-                      </p>
-                    </div>
-
-                    {/* Kolumna prawa: Podsumowanie i zgody */}
-                    <div className="w-full md:w-72 flex flex-col">
-                      <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5 mb-5">
-                        <h3 className="font-bold text-slate-800 mb-4 border-b border-slate-200 pb-2">
-                          Twoje zamówienie
-                        </h3>
-                        <div className="space-y-2 text-sm">
-                          <div className="flex justify-between text-slate-600">
-                            <span>Materiał:</span>
-                            <span className="font-medium text-slate-800 text-right ml-2">
-                              {selected.name}
-                            </span>
-                          </div>
-                          <div className="flex justify-between text-slate-600">
-                            <span>Waga:</span>
-                            <span className="font-medium text-slate-800">
-                              {weight} t
-                            </span>
-                          </div>
-                          <div className="flex justify-between text-slate-600">
-                            <span>Wartość towaru:</span>
-                            <span className="font-medium text-slate-800">
-                              {matCost} zł
-                            </span>
-                          </div>
-                          <div className="flex justify-between text-slate-600 pb-3 border-b border-slate-200">
-                            <span>Koszty dostawy:</span>
-                            <span className="font-medium text-slate-800">
-                              {transCost === 0 ? (
-                                <span className="text-emerald-600">GRATIS</span>
-                              ) : (
-                                `${transCost} zł`
-                              )}
-                            </span>
-                          </div>
-                          <p className="text-xs text-slate-400 italic mt-1 mb-1 leading-relaxed">
-                            Szacunkowy koszt transportu. Ze względu na warunki
-                            dojazdu, ostateczna cena dostawy zostanie
-                            potwierdzona przez naszego pracownika.
-                          </p>
-                          {packaging === 'bigbag' && (
-                            <div className="flex justify-between text-slate-600 pb-3 border-b border-slate-200">
-                              <span>BIG-BAG x{bigBagQuantity} worki:</span>
-                              <span className="font-medium text-amber-700">
-                                {bigBagCost} zł
-                              </span>
-                            </div>
-                          )}
-                          <div className="flex justify-between items-center pt-1">
-                            <span className="font-bold text-slate-700">
-                              Razem brutto:
-                            </span>
-                            <span className="text-xl font-black text-blue-900">
-                              {totalCost} zł
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Zgody prawne */}
-                      <div className="space-y-3 mb-5">
-                        <label className="flex items-start gap-3 cursor-pointer group">
-                          <input
-                            type="checkbox"
-                            className="mt-1 w-4 h-4 accent-blue-900 bg-slate-100 border-slate-300 rounded focus:ring-blue-900"
-                            required
-                          />
-                          <span className="text-xs text-slate-500 group-hover:text-slate-700 transition-colors leading-relaxed">
-                            Akceptuję{' '}
-                            <a href="#" className="text-blue-700 underline">
-                              Regulamin
-                            </a>{' '}
-                            oraz potwierdzam zapoznanie się z{' '}
-                            <a href="#" className="text-blue-700 underline">
-                              Polityką Prywatności
-                            </a>
-                            . *
-                          </span>
-                        </label>
-                        <label className="flex items-start gap-3 cursor-pointer group">
-                          <input
-                            type="checkbox"
-                            className="mt-1 w-4 h-4 accent-blue-900 bg-slate-100 border-slate-300 rounded focus:ring-blue-900"
-                            required
-                          />
-                          <span className="text-xs text-slate-500 group-hover:text-slate-700 transition-colors leading-relaxed">
-                            Wyrażam zgodę na przetwarzanie moich danych
-                            osobowych w celu realizacji zamówienia. *
-                          </span>
-                        </label>
-                      </div>
-
-                      <button
-                        type="submit"
-                        disabled={
-                          isSubmitting || (packaging === 'bigbag' && weight > 2)
-                        }
-                        className="w-full inline-flex justify-center items-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-900 px-6 py-4 rounded-xl font-black shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 uppercase tracking-wide text-sm mt-auto disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
-                      >
-                        {isSubmitting ? (
-                          <>
-                            <div className="w-4 h-4 border-2 border-slate-900 border-t-transparent rounded-full animate-spin"></div>
-                            Wysyłanie...
-                          </>
-                        ) : (
-                          <>
-                            <Check size={18} />
-                            Zamawiam z obowiązkiem zapłaty
-                          </>
-                        )}
-                      </button>
-                      <input
-                        type="hidden"
-                        name="Sposob_pakowania"
-                        value={
-                          packaging === 'bigbag'
-                            ? `BIG-BAG (${bigBagQuantity} worki = ${bigBagCost} zl)`
-                            : 'Luzem (wywrotka)'
-                        }
-                      />
-
-                      <p className="text-[10px] text-slate-400 text-center mt-3 leading-relaxed">
-                        Płatność następuje u kierowcy (gotówka/karta) w momencie
-                        dostawy towaru.
-                      </p>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
-          )}
-          {/* --- KONIEC MODALA --- */}
+          </form>
         </div>
-      </Tilt>
+      </div>
+    )}
+    {/* --- KONIEC MODALA --- */}
+      </div>
+    </Tilt>
     </>
   );
 }
