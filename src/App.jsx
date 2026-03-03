@@ -1212,9 +1212,9 @@ function HydraulicsPage({ navigateTo }) {
 
           {/* Główne hasło z industrialnym gradientem */}
           <h1 className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight leading-tight">
-            Ciśnienie pod <br className="hidden md:block" />
+            Przewody <br className="hidden md:block" />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-yellow-500">
-              pełną kontrolą
+              Hydrauliczne
             </span>
           </h1>
 
