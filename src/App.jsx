@@ -861,7 +861,7 @@ function StartPage({ navigateTo }) {
                           Zapraszamy do zapoznania się z ofertą
                         </span>
                         <span className="block md:hidden">
-                          Aby zapoznać się z ofertą przytrzymaj ikonę
+                          Aby zapoznać się z ofertą przytrzymaj ikony poniżej
                         </span>
                       </>
                     )}
