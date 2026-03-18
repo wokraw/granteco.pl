@@ -3916,7 +3916,7 @@ function CalculatorComponent({ setLegalModal }) {
                           <span>
                             Dostawy realizujemy:{' '}
                             <strong className="text-slate-800">
-                              Pn-Pt (9:00 - 15:00)
+                              Pn-Pt (9:00 - 14:00)
                             </strong>{' '}
                             oraz w{' '}
                             <strong className="text-slate-800">
