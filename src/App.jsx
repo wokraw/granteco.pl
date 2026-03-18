@@ -67,13 +67,13 @@ const LOGO_CONFIG = {
 // --- KONFIGURACJA DANYCH ---
 const DATA_CONFIG = {
   materials: [
-    { id: 1, name: 'Otoczak "Miodowy" 8/16', density: 1.5, price: 300 },
+    { id: 1, name: 'Otoczak "Miodowy" 8/16', density: 1.5, price: 350 },
     { id: 2, name: 'Otoczak "Mleczny" 16/32', density: 1.5, price: 500 },
     { id: 3, name: 'Grys Granitowy 8/16', density: 1.6, price: 350 },
     { id: 4, name: 'Grys Granitowy 16/22', density: 1.6, price: 350 },
     { id: 5, name: 'Grys Bazaltowy 16/22', density: 1.6, price: 350 },
     { id: 6, name: 'Kruszywo Cappuccino 16/35', density: 1.4, price: 400 },
-    { id: 7, name: 'Grys Biała Marianna 8/16', density: 1.5, price: 700 },
+    { id: 7, name: 'Grys Biała Marianna 8/16', density: 1.5, price: 600 },
     { id: 8, name: 'Kora Kamienna 11/32', density: 1.4, price: 500 },
     { id: 9, name: 'Kora Kamienna 16/32', density: 1.4, price: 500 },
     { id: 10, name: 'Piasek 0/2', density: 1.7, price: 100 },
@@ -2470,7 +2470,7 @@ const MATERIALS = [
     id: 1,
     name: 'Otoczak "Miodowy" 8/16',
     density: 1.5,
-    price: 300,
+    price: 350,
     margin: 'mid',
   },
   {
@@ -2512,7 +2512,7 @@ const MATERIALS = [
     id: 7,
     name: 'Grys Biała Marianna 8/16',
     density: 1.5,
-    price: 700,
+    price: 600,
     margin: 'high',
   },
   {
