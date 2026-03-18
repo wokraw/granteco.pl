@@ -449,7 +449,7 @@ export default function App() {
                   </div>
                   <li className="flex items-center gap-3 mt-6 text-amber-400 bg-amber-400/10 px-4 py-2 rounded-lg border border-amber-400/20">
                     <AlertCircle size={16} />
-                    <span>Przed przyjazdem prosimy o kontakt</span>
+                    <span>Godziny otwarcia są orientacyjne - Przed przyjazdem prosimy o kontakt</span>
                   </li>
                 </ul>
               </div>
@@ -2344,7 +2344,7 @@ function ContactPage({ navigateTo }) {
               </ul>
               <div className="mt-5 flex items-center gap-2 text-amber-400 bg-amber-400/10 px-4 py-2.5 rounded-lg border border-amber-400/20 text-sm">
                 <AlertCircle size={16} />
-                <span>Przed przyjazdem prosimy o kontakt</span>
+                <span>Godziny otwarcia są orientacyjne - Przed przyjazdem prosimy o kontakt</span>
               </div>
             </div>
           </div>
