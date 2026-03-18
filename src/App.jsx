@@ -1649,7 +1649,7 @@ function StonePage({ navigateTo }) {
       title: 'Grys Biała Marianna',
       fractions: ['8/16 mm'],
       description:
-        'Jasny, niemal śnieżnobiały marmur z delikatnymi, brzoskwiniowo-kremowymi żyłkami. Bardzo szlachetny wygląd - ozświetla ogród. Często używany w ogrodach w stylu japońskim, w nowoczesnych aranżacjach wokół ciemnych roślin, a także w donicach na tarasach.',
+        'Jasny, niemal śnieżnobiały marmur z delikatnymi, brzoskwiniowo-kremowymi żyłkami. Bardzo szlachetny wygląd - rozświetla ogród. Często używany w ogrodach w stylu japońskim, w nowoczesnych aranżacjach wokół ciemnych roślin, a także w donicach na tarasach.',
       image: '/biala_marianna.jpg',
     },
     {
