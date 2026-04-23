@@ -72,7 +72,7 @@ const DATA_CONFIG = {
     { id: 3, name: 'Grys Granitowy 8/16', density: 1.6, price: 350 },
     { id: 4, name: 'Grys Granitowy 16/22', density: 1.6, price: 350 },
     { id: 5, name: 'Grys Bazaltowy 16/22', density: 1.6, price: 350 },
-    { id: 6, name: 'Kruszywo Cappuccino 16/35', density: 1.4, price: 400 },
+    { id: 6, name: 'Kruszywo Cappuccino 16/35', density: 1.4, price: 450 },
     { id: 7, name: 'Grys Biała Marianna 8/16', density: 1.5, price: 600 },
     { id: 8, name: 'Kora Kamienna 11/32', density: 1.4, price: 500 },
     { id: 9, name: 'Kora Kamienna 16/32', density: 1.4, price: 500 },
@@ -2505,7 +2505,7 @@ const MATERIALS = [
     id: 6,
     name: 'Kruszywo Cappuccino 16/35',
     density: 1.4,
-    price: 400,
+    price: 450,
     margin: 'mid',
   },
   {
